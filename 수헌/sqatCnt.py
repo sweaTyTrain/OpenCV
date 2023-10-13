@@ -83,7 +83,7 @@ def isSqat(left_knee_angle, squatCnt, squatBeforeState, squatNowState):
     if left_knee_angle >= 140:
         squatNowState = 0
     # 90 이하라면 1(앉은 상태)
-    elif left_knee_angle <= 90:
+    elif left_knee_angle <= 90 and left_knee_angle > 0:
         squatNowState = 1
 
     # 만약 squatBeforeState(이전 상태)가 1(앉은 상태)였는데
@@ -180,13 +180,19 @@ while video.isOpened():
                                          mp_pose.PoseLandmark.LEFT_KNEE.value,
                                          mp_pose.PoseLandmark.LEFT_HIP.value, min_visibility, results, landmarks)
 
-        # 각도를 화면, 콘솔에 출력
-        cv2.putText(frame, f"left_knee_angle: {left_knee_angle}", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.6, (255, 0, 0),
-                    2)
-        print(left_knee_angle)
+        # 왼쪽 무릎각이 -1이라면 왼쪽 다리를 인식하지 못한 것
+        if left_knee_angle == -1:
+            cv2.putText(frame, "Left knee landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255),2)
+            print("왼쪽 다리 인식 불가")
 
-        # 스쿼트 인식 여부
-        left_knee_angle, squatCnt, squatBeforeState, squatNowState = isSqat(left_knee_angle, squatCnt, squatBeforeState, squatNowState)
+        else:
+            # 각도를 화면, 콘솔에 출력
+            cv2.putText(frame, f"left_knee_angle: {left_knee_angle}", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.6, (255, 0, 0),
+                        2)
+            print(left_knee_angle)
+
+            # 스쿼트 인식 여부
+            left_knee_angle, squatCnt, squatBeforeState, squatNowState = isSqat(left_knee_angle, squatCnt, squatBeforeState, squatNowState)
     else:
         cv2.putText(frame, "all landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
         print("랜드마크 검출 불가")
