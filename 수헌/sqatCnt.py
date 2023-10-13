@@ -127,6 +127,10 @@ def calculateAngle(landmark1_idx, landmark2_idx, landmark3_idx, min_visibility, 
             # Add 360 to the found angle.
             angle += 360
 
+        # 계산된 각이 180이 넘는다면 반대 각을 인식한 것 이므로 angle을 조정해 준다.
+        if angle > 180:
+            angle = 360 - angle
+
         # Return the calculated angle.
         return angle
     return -1
