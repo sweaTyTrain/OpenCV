@@ -182,12 +182,12 @@ while video.isOpened():
 
         # 왼쪽 무릎각이 -1이라면 왼쪽 다리를 인식하지 못한 것
         if left_knee_angle == -1:
-            cv2.putText(frame, "Left knee landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255),2)
+            cv2.putText(frame, "Left knee landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255),2)
             print("왼쪽 다리 인식 불가")
 
         else:
             # 각도를 화면, 콘솔에 출력
-            cv2.putText(frame, f"left_knee_angle: {left_knee_angle}", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.6, (255, 0, 0),
+            cv2.putText(frame, f"left_knee_angle: {int(left_knee_angle)}", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.6, (255, 0, 0),
                         2)
             print(left_knee_angle)
 
@@ -197,7 +197,7 @@ while video.isOpened():
         cv2.putText(frame, "all landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
         print("랜드마크 검출 불가")
 
-    cv2.putText(frame, f"squatCnt: {squatCnt}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+    cv2.putText(frame, f"squatCnt: {squatCnt}", (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
     print("스쿼트 개수:", squatCnt)
 
     # 프레임 출력

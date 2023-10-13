@@ -139,10 +139,10 @@ def calculateAngle(landmark1_idx, landmark2_idx, landmark3_idx, min_visibility, 
 pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, model_complexity=1)
 
 # Initialize the VideoCapture object to read from the webcam.
-video = cv2.VideoCapture(0)
+# video = cv2.VideoCapture(0)
 
 # Initialize the VideoCapture object to read from a video stored in the disk.
-# video = cv2.VideoCapture('./pushUp_video.mp4')
+video = cv2.VideoCapture('./pushUp_video.mp4')
 
 # 푸쉬 업 카운트 관련 변수
 pushUpCnt = 0
@@ -182,12 +182,12 @@ while video.isOpened():
 
         # 왼쪽 팔꿈치각이 -1이라면 왼쪽 팔을 인식하지 못한 것
         if left_elbow_angle == -1:
-            cv2.putText(frame, "Left elbow landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255),2)
+            cv2.putText(frame, "Left elbow landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255),2)
             print("왼쪽 팔꿈치 인식 불가")
 
         else:
             # 각도를 화면, 콘솔에 출력
-            cv2.putText(frame, f"left_elbow_angle: {int(left_elbow_angle)}", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.6, (0, 255, 0),
+            cv2.putText(frame, f"left_elbow_angle: {int(left_elbow_angle)}", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.6, (255, 0, 0),
                         2)
             print(left_elbow_angle)
 
