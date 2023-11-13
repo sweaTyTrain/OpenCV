@@ -162,16 +162,17 @@ pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5,
 # video = cv2.VideoCapture(0)
 
 # Initialize the VideoCapture object to read from a video stored in the disk.
-video = cv2.VideoCapture('./squat4.mp4')
+video = cv2.VideoCapture('./squat1.mp4')
 
-# 허리각도RL, 무릎각도RL, 발목-무릎-반대쪽무릎 RL
+# 허리각도RL, 무릎각도RL, 발목-무릎-반대쪽무릎 RL, 무릎-엉덩이-반대쪽엉덩이 RL
 back_angle_R = []
 back_angle_L = []
 knee_angle_R = []
 knee_angle_L = []
 ankle_knee_knee_R = []
 ankle_knee_knee_L = []
-
+hip_hip_knee_R = []
+hip_hip_knee_L = []
 
 # 반복문 일시 정지를 위한 변수
 paused = False
@@ -246,6 +247,18 @@ while video.isOpened():
                                            landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value])
     ankle_knee_knee_R.append(ankle_knee_knee_right)
 
+    # 무릎-엉덩이-반대쪽엉덩이 왼쪽 각도 계산 및 저장
+    hip_hip_knee_left = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
+                                       landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
+                                       landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value])
+    hip_hip_knee_L.append(hip_hip_knee_left)
+
+    # 무릎-엉덩이-반대쪽엉덩이 오른쪽 각도 계산 및 저장
+    hip_hip_knee_right = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
+                                        landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
+                                        landmarks[mp_pose.PoseLandmark.LEFT_HIP.value])
+    hip_hip_knee_R.append(hip_hip_knee_right)
+
     # 현재 프레임 번호 출력
     print(i, '번째 프레임')
 
@@ -287,6 +300,8 @@ df['knee_angle_R'] = knee_angle_R
 df['knee_angle_L'] = knee_angle_L
 df['ankle_knee_knee_R'] = ankle_knee_knee_R
 df['ankle_knee_knee_L'] = ankle_knee_knee_L
+df['hip_hip_knee_R'] = hip_hip_knee_R
+df['hip_hip_knee_L'] = hip_hip_knee_L
 
 # csv파일로 저장
 df.to_csv("squat.csv", index=False)
