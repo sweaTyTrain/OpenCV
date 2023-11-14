@@ -156,10 +156,24 @@ def calculateDistance(landmark1, landmark2):
 pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, model_complexity=1)
 
 # Initialize the VideoCapture object to read from the webcam.
-# video = cv2.VideoCapture(0)
+video = cv2.VideoCapture(0)
+
+# # 원본 동영상 크기 정보
+# w = video.get(cv2.CAP_PROP_FRAME_WIDTH)
+# h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
+# print("원본 동영상 너비(가로) : {}, 높이(세로) : {}".format(w, h))
+
+# # 카메라 비율 설정, 3:4비율을 지원하지 않는다면 3:4와 비슷한 비율로 설정된다
+# video.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
+# video.set(cv2.CAP_PROP_FRAME_HEIGHT, 640)
+
+# # 변환된 동영상 크기 정보
+# w = video.get(cv2.CAP_PROP_FRAME_WIDTH)
+# h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
+# print("변환된 동영상 너비(가로) : {}, 높이(세로) : {}".format(w, h))
 
 # Initialize the VideoCapture object to read from  a video stored in the disk.
-video = cv2.VideoCapture('./squat2.mp4')
+# video = cv2.VideoCapture('./squat2.mp4')
 # video = cv2.VideoCapture('./my_squat_train.mp4')
 
 # 스쿼트 카운트 관련 변수
@@ -233,15 +247,25 @@ while video.isOpened():
         ankle_knee_knee_right = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value],
                                                landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
                                                landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value])
+
+        # 무릎-엉덩이-반대쪽엉덩이 왼쪽 각도 계산 및 저장
+        hip_hip_knee_left = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
+                                           landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
+                                           landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value])
+
+        # 무릎-엉덩이-반대쪽엉덩이 오른쪽 각도 계산 및 저장
+        hip_hip_knee_right = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
+                                            landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
+                                            landmarks[mp_pose.PoseLandmark.LEFT_HIP.value])
+
         # 현재 프레임 출력
         print(i, '번째 프레임')
 
         # 계산된 값들을 모델에 입력으로 넣은 후 결과 확인
         # 예측값이 1에 가까울수록 일어서있을 확률이 높고, 0에 가까울수록 앉아있을 확률이 높다.
         # pre = model.predict(np.array([[inter_foots_value, back_angle_left, back_angle_right, knee_angle_left, knee_angle_right, hip_to_heel_left, hip_to_heel_right]]))
-        pre = model.predict(np.array([[back_angle_right, back_angle_left, knee_angle_right, knee_angle_left,
-                                       ankle_knee_knee_right, ankle_knee_knee_left]]))
-        # print(pre) 
+        pre = model.predict(np.array([[back_angle_right, back_angle_left, knee_angle_right, knee_angle_left, ankle_knee_knee_right, ankle_knee_knee_left, hip_hip_knee_right, hip_hip_knee_left]]))
+        # print(pre)
 
         # 예측값이 0.8보다 높다면 일어서 있는것으로 판단
         if pre[0][0] > 0.8:
@@ -265,7 +289,7 @@ while video.isOpened():
         cv2.putText(frame, f"is_stand: {pre[0][0]:.4f}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
         # is_back_front 화면에 출력
-        if pre[0][1] > 0.5:
+        if pre[0][1] > 0.8:
             cv2.putText(frame, f"is_back_front: {pre[0][1]:.4f}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255),
                         2)
         else:
@@ -273,7 +297,7 @@ while video.isOpened():
                         2)
 
         # is_knee_narrow 화면에 출력
-        if pre[0][2] > 0.5:
+        if pre[0][2] > 0.8:
             cv2.putText(frame, f"is_knee_narrow: {pre[0][2]:.4f}", (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                         (0, 0, 255), 2)
         else:
@@ -281,7 +305,7 @@ while video.isOpened():
                         (0, 255, 0), 2)
         # is_knee_wide 화면에 출력
 
-        if pre[0][3] > 0.5:
+        if pre[0][3] > 0.8:
             cv2.putText(frame, f"is_knee_wide: {pre[0][3]:.4f}", (10, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255),
                         2)
         else:
