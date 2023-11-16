@@ -14,7 +14,8 @@ y_train = []
 
 # x_train에 입력값으로 넣을 값들 불러오기
 for i, rows in data_train.iterrows():
-    x_train.append([rows['back_angle_R'], rows['back_angle_L'], rows['knee_angle_R'], rows['knee_angle_L'], rows['ankle_knee_knee_R'], rows['ankle_knee_knee_L'], rows['hip_hip_knee_R'], rows['hip_hip_knee_L']])
+    x_train.append([rows['back_angle_R'], rows['back_angle_L'], rows['knee_angle_R'], rows['knee_angle_L'], 
+                    rows['ankle_knee_knee_R'], rows['ankle_knee_knee_L'], rows['hip_hip_knee_R'], rows['hip_hip_knee_L']])
 
 # y_train에 입력값으로 넣을 값들 불러오기
 for i, rows in data_train.iterrows():
