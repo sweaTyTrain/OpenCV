@@ -95,18 +95,18 @@ def detectPose(image, pose, display=True):
         # # 3D 랜드마크 나타내기
         # mp_drawing.plot_landmarks(results.pose_world_landmarks, mp_pose.POSE_CONNECTIONS)
 
-        # 오리지널 & 아웃풋 이미지 그리기
-        plt.figure(figsize=[17,17])
-
-        plt.subplot(121)
-        plt.imshow(image[:,:,::-1])
-        plt.title("Original Image")
-        plt.axis('off')
-
-        plt.subplot(122)
-        plt.imshow(output_image[:,:,::-1])
-        plt.title("Output Image")
-        plt.axis('off')
+        # # 오리지널 & 아웃풋 이미지 그리기
+        # plt.figure(figsize=[17,17])
+        #
+        # plt.subplot(121)
+        # plt.imshow(image[:,:,::-1])
+        # plt.title("Original Image")
+        # plt.axis('off')
+        #
+        # plt.subplot(122)
+        # plt.imshow(output_image[:,:,::-1])
+        # plt.title("Output Image")
+        # plt.axis('off')
 
     return results, output_image, landmarks
 
@@ -162,7 +162,17 @@ pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5,
 # video = cv2.VideoCapture(0)
 
 # Initialize the VideoCapture object to read from a video stored in the disk.
-video = cv2.VideoCapture('./squat_3.mp4')
+video = cv2.VideoCapture('./squat_4.mp4')
+
+# 빈 데이터프레임 생성
+df = pd.DataFrame(columns=['right_shoulder_x', 'right_shoulder_y', 'right_shoulder_z',
+                           'left_shoulder_x', 'left_shoulder_y', 'left_shoulder_z',
+                           'right_hip_x', 'right_hip_y', 'right_hip_z',
+                           'left_hip_x', 'left_hip_y', 'left_hip_z',
+                           'right_knee_x', 'right_knee_y', 'right_knee_z',
+                           'left_knee_x', 'left_knee_y', 'left_knee_z',
+                           'right_ankel_x', 'right_ankel_y', 'right_ankel_z',
+                           'left_ankel_x', 'left_ankel_y', 'left_ankel_z'])
 
 # 허리각도RL, 무릎각도RL, 발목-무릎-반대쪽무릎 RL, 무릎-엉덩이-반대쪽엉덩이 RL
 back_angle_R = []
@@ -203,61 +213,68 @@ while video.isOpened():
     # 관절 인식 수행
     results, frame, landmarks = detectPose(frame, pose_video, display=False)
 
-    # landmark가 하나라도 인식되었는지 확인
-    if results.pose_world_landmarks:
-        cv2.putText(frame, "landmarks detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+    # 모든 landmark가 인식되었는지 확인
+    if results.pose_world_landmarks is not None and all(results.pose_world_landmarks.landmark[j].visibility > 0.5  for j in range(0, 33)):
+        cv2.putText(frame, "all landmarks detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+
+        # 여기서부터 점 좌표 정규화
+        # 왼쪽 엉덩이 점을 (0, 0, 0)이 되도록 shift
+        adjust_x = -1 * landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][0]
+        adjust_y = -1 * landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][1]
+        adjust_z = -1 * landmarks[mp_pose.PoseLandmark.LEFT_HIP.value][2]
+
+        landmarks_adjust_point = []
+
+        for j in range(0, 33):
+            landmarks_adjust_point.append((landmarks[j][0] + adjust_x,
+                                           landmarks[j][1] + adjust_y,
+                                           landmarks[j][2] + adjust_z))
+
+        # 엉덩이 사이의 거리를 1으로 하여 모든 관절을 정규화
+        hip_distance = calculateDistance(landmarks_adjust_point[mp_pose.PoseLandmark.LEFT_HIP.value],
+                                         landmarks_adjust_point[mp_pose.PoseLandmark.RIGHT_HIP.value])
+
+        landmarks_adjust_ratio = []
+
+        for j in range(0, 33):
+            landmarks_adjust_ratio.append((landmarks_adjust_point[j][0] / hip_distance,
+                                           landmarks_adjust_point[j][1] / hip_distance,
+                                           landmarks_adjust_point[j][2] / hip_distance))
+
+        # 여기까지 점 좌표 정규화
+
+        # 데이터프레임에 새로운 행 추가
+        now_points = [ landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][0],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][1],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][2],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_SHOULDER.value][0],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_SHOULDER.value][1],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_SHOULDER.value][2],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_HIP.value][0],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_HIP.value][1],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_HIP.value][2],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_HIP.value][0],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_HIP.value][1],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_HIP.value][2],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_KNEE.value][0],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_KNEE.value][1],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_KNEE.value][2],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_KNEE.value][0],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_KNEE.value][1],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_KNEE.value][2],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_ANKLE.value][0],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_ANKLE.value][1],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_ANKLE.value][2],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_ANKLE.value][0],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_ANKLE.value][1],
+                       landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_ANKLE.value][2] ]
+
+        df.loc[len(df)] = now_points
+
     # 관절이 하나도 인식되지 않았음 -> 오류 메세지 출력
     else:
-        cv2.putText(frame, "all landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+        cv2.putText(frame, "some or all landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
         print("랜드마크 검출 불가")
-
-    # 왼쪽 허리 각도 계산 및 저장
-    back_angle_left = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value],
-                                     landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
-                                     landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value])
-    back_angle_L.append(back_angle_left)
-
-    # 오른쪽 허리 각도 계산 및 저장
-    back_angle_right = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value],
-                                      landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
-                                      landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value])
-    back_angle_R.append(back_angle_right)
-
-    # 왼쪽 무릎 각도 계산 및 저장
-    knee_angle_left = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value],
-                                     landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
-                                     landmarks[mp_pose.PoseLandmark.LEFT_HIP.value])
-    knee_angle_L.append(knee_angle_left)
-
-    # 오른쪽 무릎 각도 계산 및 저장
-    knee_angle_right = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value],
-                                      landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
-                                      landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value])
-    knee_angle_R.append(knee_angle_right)
-
-    # 발목-무릎-반대쪽 무릎 왼쪽 각도 계산 및 저장
-    ankle_knee_knee_left = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value],
-                                          landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
-                                          landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value])
-    ankle_knee_knee_L.append(ankle_knee_knee_left)
-
-    # 발목-무릎-반대쪽 무릎 오른쪽 각도 계산 및 저장
-    ankle_knee_knee_right = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value],
-                                           landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
-                                           landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value])
-    ankle_knee_knee_R.append(ankle_knee_knee_right)
-
-    # 무릎-엉덩이-반대쪽엉덩이 왼쪽 각도 계산 및 저장
-    hip_hip_knee_left = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
-                                       landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
-                                       landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value])
-    hip_hip_knee_L.append(hip_hip_knee_left)
-
-    # 무릎-엉덩이-반대쪽엉덩이 오른쪽 각도 계산 및 저장
-    hip_hip_knee_right = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
-                                        landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
-                                        landmarks[mp_pose.PoseLandmark.LEFT_HIP.value])
-    hip_hip_knee_R.append(hip_hip_knee_right)
 
     # 현재 프레임 번호 출력
     print(i, '번째 프레임')
@@ -292,16 +309,6 @@ video.release()
 
 # Close the windows.
 cv2.destroyAllWindows()
-
-# 데이터프레임 만들기
-df = pd.DataFrame(back_angle_R, columns=['back_angle_R'])
-df['back_angle_L'] = back_angle_L
-df['knee_angle_R'] = knee_angle_R
-df['knee_angle_L'] = knee_angle_L
-df['ankle_knee_knee_R'] = ankle_knee_knee_R
-df['ankle_knee_knee_L'] = ankle_knee_knee_L
-df['hip_hip_knee_R'] = hip_hip_knee_R
-df['hip_hip_knee_L'] = hip_hip_knee_L
 
 # csv파일로 저장
 df.to_csv("squat.csv", index=False)
