@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import math
+import numpy as np
 
 class poseDetector():
 
@@ -40,49 +41,56 @@ class poseDetector():
                 # finding height, width of the image printed
                 h, w, c = img.shape
                 # Determining the pixels of the landmarks
-                cx, cy = int(lm.x * w), int(lm.y * h)
-                self.lmList.append([id, cx, cy])
+                cx, cy, cz = float(lm.x), float(lm.y), float(lm.z)
+                self.lmList.append([id, cx, cy, cz])
                 if draw:
-                    cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
+                    cv2.circle(img, (cx, cy, cz), 5, (255, 0, 0), cv2.FILLED)
         return self.lmList
 
-    def findAngle(self, img, p1, p2, p3, draw=True):
+    def calculateAngle(self, img, p1, p2, p3, draw=True):
         # Get the landmarks
-        x1, y1 = self.lmList[p1][1:]
-        x2, y2 = self.lmList[p2][1:]
-        x3, y3 = self.lmList[p3][1:]
+        x1, y1, z1 = self.lmList[p1][1:]
+        x2, y2, z2 = self.lmList[p2][1:]
+        x3, y3, z3 = self.lmList[p3][1:]
 
-        # Calculate Angle
-        angle = math.degrees(math.atan2(y3 - y2, x3 - x2) -
-                             math.atan2(y1 - y2, x1 - x2))
-        if angle < 0:
-            angle += 360
-            if angle > 180:
-                angle = 360 - angle
-        elif angle > 180:
-            angle = 360 - angle
-        # print(angle)
+        # landmark1에서 landmark2로 향하는 3차원 벡터 계산
+        vector1 = np.array([x1, y1, z1]) - np.array([x2, y2, z2])
+        # landmark3에서 landmark2로 향하는 3차원 벡터 계산
+        vector2 = np.array([x3, y3, z3]) - np.array([x2, y2, z2])
+
+        # 벡터의 크기를 고려하지 않기 위해 단위벡터로 환산
+        unit_vector1 = vector1 / np.linalg.norm(vector1)
+        unit_vector2 = vector2 / np.linalg.norm(vector2)
+
+        # 두 단위벡터의 내적을 구한다.(내적: 두 벡터의 방향 유사도(-1~1))
+        dot_product = np.dot(unit_vector1, unit_vector2)
+
+        # 내적을 바탕으로 두 단위벡터 사이의 각을 구한다.(라디안)
+        angle_radians = math.acos(np.clip(dot_product, -1.0, 1.0))
+
+        # 라디안 각을 degree로 변환
+        angle_degrees = math.degrees(angle_radians)
 
         # Draw
         if draw:
             cv2.line(img, (x1, y1), (x2, y2), (255, 255, 255), 3)
             cv2.line(img, (x3, y3), (x2, y2), (255, 255, 255), 3)
 
-            cv2.circle(img, (x1, y1), 5, (0, 0, 255), cv2.FILLED)
             cv2.circle(img, (x1, y1), 15, (0, 0, 255), 2)
-            cv2.circle(img, (x2, y2), 5, (0, 0, 255), cv2.FILLED)
+            cv2.circle(img, (x2, y2), 10, (0, 0, 255), cv2.FILLED)
+            cv2.circle(img, (x1, y1), 10, (0, 0, 255), cv2.FILLED)
             cv2.circle(img, (x2, y2), 15, (0, 0, 255), 2)
-            cv2.circle(img, (x3, y3), 5, (0, 0, 255), cv2.FILLED)
+            cv2.circle(img, (x3, y3), 10, (0, 0, 255), cv2.FILLED)
             cv2.circle(img, (x3, y3), 15, (0, 0, 255), 2)
 
-            cv2.putText(img, str(int(angle)), (x2 - 50, y2 + 50),
+            cv2.putText(img, str(int(angle_degrees)), (x2 - 50, y2 + 50),
                         cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-        return angle
+        return angle_degrees
 
 
 def main():
     detector = poseDetector()
-    cap = cv2.VideoCapture('/Users/sojeongshin/PycharmProjects/mediaPipe/push_up(540p).mp4')
+    cap = cv2.VideoCapture('/Users/sojeongshin/PycharmProjects/mediaPipe/squat_video/sj_squat.mov')
     while cap.isOpened():
         ret, img = cap.read()  # ret is just the return variable, not much in there that we will use.
         if ret:
