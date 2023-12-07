@@ -1,0 +1,23 @@
+﻿<Properties StartupConfiguration="{32858C0E-2C91-15D0-65A7-0F77AB1190F8}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/AnimationCode.cs">
+    <Files>
+      <File FileName="Assets/AnimationFile.txt" Line="1" Column="12" />
+      <File FileName="Assets/AnimationCode.cs" Line="38" Column="26" />
+      <File FileName="Assets/LineCode.cs" Line="11" Column="12" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MotionCapture" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="53a434ba-c573-4fec-aa9f-4ffc6dd9dc52" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
