@@ -15,7 +15,7 @@ mp_pose = mp.solutions.pose
 
 # Setting up the Pose function.
 # pose detect function에 image detect=True, 최소감지신뢰도 = 0.3, 모델 복잡도 =2를 준다.
-pose = mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.1, model_complexity=2)
+pose = mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.1, model_complexity=1)
 
 # Initializing mediapipe drawing class, useful for annotation.
 # mediapipe의 drawing class를 초기화한다.
@@ -58,8 +58,6 @@ def detectPose(image, pose, display=True):
       for landmark in results.pose_landmarks.landmark:
 
         # landmark를 list에 추가하기
-        # 이미지의 비율에 맞게 값을 곱해 정규화 해제
-        # z값은 이미지의 비율을 알 수 없으므로 대충 너비의 나누기 3한 값을 곱해준다. -> 나중에 적당한 z가중치를 찾는 코드 추가해야 할 듯
         landmarks.append((float(landmark.x), float(landmark.y), float(landmark.z)))
 
     # 오리지널 image와 pose detect된 image 비교
@@ -74,15 +72,15 @@ def detectPose(image, pose, display=True):
 
         for i in range(33):
             x.append(landmarks[i][0])
-            y.append(landmarks[i][2])
-            z.append(-1 * landmarks[i][1])
+            y.append(landmarks[i][1])
+            z.append(landmarks[i][2])
 
         # scatter 함수를 사용하여 3차원 점을 그립니다.
         ax.scatter(x, y, z)
 
         # 아래 옵션은 더 나은 시각화를 위해 조정되는 옵션임
         # 만일 모델이 찌그러져 나와도 실제 점은 landmarks에 제대로 찍혀있다.
-        ax.set_box_aspect([0.05, 0.1, 0.2])  # sqat_img6.PNG 비율
+        ax.set_box_aspect([0.05, 0.2, 0.1])  # sqat_img6.PNG 비율
 
         # 축 레이블을 설정합니다.
         ax.set_xlabel('X')
@@ -150,19 +148,52 @@ def calculateDistance(landmark1, landmark2):
 
     return distance
 
+def rotate_around_left_hip(landmarks, rotation_angle_x=0, rotation_angle_y=0, rotation_angle_z=0):
+    # 왼쪽 엉덩이의 좌표
+    left_hip = np.array(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value])
+
+    # 회전 행렬 생성
+    rotation_matrix_x = np.array([[1, 0, 0],
+                                  [0, math.cos(math.radians(rotation_angle_x)), -math.sin(math.radians(rotation_angle_x))],
+                                  [0, math.sin(math.radians(rotation_angle_x)), math.cos(math.radians(rotation_angle_x))]])
+
+    rotation_matrix_y = np.array([[math.cos(math.radians(rotation_angle_y)), 0, math.sin(math.radians(rotation_angle_y))],
+                                  [0, 1, 0],
+                                  [-math.sin(math.radians(rotation_angle_y)), 0, math.cos(math.radians(rotation_angle_y))]])
+
+    rotation_matrix_z = np.array([[math.cos(math.radians(rotation_angle_z)), -math.sin(math.radians(rotation_angle_z)), 0],
+                                  [math.sin(math.radians(rotation_angle_z)), math.cos(math.radians(rotation_angle_z)), 0],
+                                  [0, 0, 1]])
+
+    # 회전 각도에 따라 각각 x, y, z 축으로 회전 적용
+    rotated_landmarks = []
+    for landmark in landmarks:
+        rotated_landmark = np.array(landmark) - left_hip
+        rotated_landmark = np.dot(rotation_matrix_x, rotated_landmark)
+        rotated_landmark = np.dot(rotation_matrix_y, rotated_landmark)
+        rotated_landmark = np.dot(rotation_matrix_z, rotated_landmark)
+        rotated_landmark += left_hip
+        rotated_landmarks.append(tuple(rotated_landmark))
+
+    return rotated_landmarks
+
 
 # pose detection function start
 
 # 동영상 또는 웹캠 관절인식 결과 확인 코드
 
 # Setup Pose function for video.
-pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, model_complexity=1)
+pose_video = mp_pose.Pose(static_image_mode=False,
+                          min_tracking_confidence=0.1,
+                          min_detection_confidence=0.8,
+                          model_complexity=1,
+                          smooth_landmarks=True)
 
 # Initialize the VideoCapture object to read from the webcam.
 # video = cv2.VideoCapture(0)
 
 # Initialize the VideoCapture object to read from a video stored in the disk.
-video = cv2.VideoCapture('./squat_4.mp4')
+video = cv2.VideoCapture('./simulation1.mp4')
 
 # 빈 데이터프레임 생성
 df = pd.DataFrame(columns=['right_shoulder_x', 'right_shoulder_y', 'right_shoulder_z',
@@ -171,8 +202,8 @@ df = pd.DataFrame(columns=['right_shoulder_x', 'right_shoulder_y', 'right_should
                            'left_hip_x', 'left_hip_y', 'left_hip_z',
                            'right_knee_x', 'right_knee_y', 'right_knee_z',
                            'left_knee_x', 'left_knee_y', 'left_knee_z',
-                           'right_ankel_x', 'right_ankel_y', 'right_ankel_z',
-                           'left_ankel_x', 'left_ankel_y', 'left_ankel_z'])
+                           'right_ankle_x', 'right_ankle_y', 'right_ankle_z',
+                           'left_ankle_x', 'left_ankle_y', 'left_ankle_z'])
 
 # 허리각도RL, 무릎각도RL, 발목-무릎-반대쪽무릎 RL, 무릎-엉덩이-반대쪽엉덩이 RL
 back_angle_R = []
@@ -187,12 +218,11 @@ hip_hip_knee_L = []
 # 반복문 일시 정지를 위한 변수
 paused = False
 
-# 프레임 번호를 확인하기 위한 변수
-i = 0
+# csv 행을 확인하기 위한 변수
+i = 1
 
 # Iterate until the video is accessed successfully.
 while video.isOpened():
-    i += 1
     # Read a frame.
     hasFrame, frame = video.read()
 
@@ -214,7 +244,7 @@ while video.isOpened():
     results, frame, landmarks = detectPose(frame, pose_video, display=False)
 
     # 모든 landmark가 인식되었는지 확인
-    if results.pose_world_landmarks is not None and all(results.pose_world_landmarks.landmark[j].visibility > 0.5  for j in range(0, 33)):
+    if results.pose_world_landmarks is not None and all(results.pose_world_landmarks.landmark[j].visibility > 0.1 for j in [11, 12, 23, 24, 25, 26, 27, 28]):
         cv2.putText(frame, "all landmarks detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
         # 여기서부터 점 좌표 정규화
@@ -230,18 +260,58 @@ while video.isOpened():
                                            landmarks[j][1] + adjust_y,
                                            landmarks[j][2] + adjust_z))
 
+
+        # 왼쪽 엉덩이를 기준으로 정면 보도록 모든 좌표 회전
+        left_hip = np.array(landmarks_adjust_point[mp_pose.PoseLandmark.LEFT_HIP.value])
+        right_hip = np.array(landmarks_adjust_point[mp_pose.PoseLandmark.RIGHT_HIP.value])
+
+        rotation_angle_y = math.degrees(math.atan2(right_hip[2] - left_hip[2], right_hip[0] - left_hip[0]))
+
+        landmarks_rotated = rotate_around_left_hip(landmarks_adjust_point, 0, rotation_angle_y, 0)
+        landmarks_rotated = rotate_around_left_hip(landmarks_rotated, 270, 0, 180)
+
         # 엉덩이 사이의 거리를 1으로 하여 모든 관절을 정규화
-        hip_distance = calculateDistance(landmarks_adjust_point[mp_pose.PoseLandmark.LEFT_HIP.value],
-                                         landmarks_adjust_point[mp_pose.PoseLandmark.RIGHT_HIP.value])
+        hip_distance = calculateDistance(landmarks_rotated[mp_pose.PoseLandmark.LEFT_HIP.value],
+                                         landmarks_rotated[mp_pose.PoseLandmark.RIGHT_HIP.value])
 
         landmarks_adjust_ratio = []
 
         for j in range(0, 33):
-            landmarks_adjust_ratio.append((landmarks_adjust_point[j][0] / hip_distance,
-                                           landmarks_adjust_point[j][1] / hip_distance,
-                                           landmarks_adjust_point[j][2] / hip_distance))
+            normalized_x = landmarks_rotated[j][0] / hip_distance
+            normalized_y = landmarks_rotated[j][1] / hip_distance
+            normalized_z = landmarks_rotated[j][2] / hip_distance
 
+            landmarks_adjust_ratio.append((normalized_x, normalized_y, normalized_z))
         # 여기까지 점 좌표 정규화
+
+        # 정규화된 점좌표 시각화 보고싶으면 아래 주석 해제
+        # # 3D 서브플롯을 생성합니다.
+        # fig = plt.figure()
+        # ax = fig.add_subplot(111, projection='3d')
+        #
+        # x = []
+        # y = []
+        # z = []
+        #
+        # for i in range(33):
+        #     x.append(landmarks_adjust_ratio[i][0])
+        #     y.append(landmarks_adjust_ratio[i][1])
+        #     z.append(landmarks_adjust_ratio[i][2])
+        #
+        # # scatter 함수를 사용하여 3차원 점을 그립니다.
+        # ax.scatter(x, y, z)
+        #
+        # # 아래 옵션은 더 나은 시각화를 위해 조정되는 옵션임
+        # # 만일 모델이 찌그러져 나와도 실제 점은 landmarks에 제대로 찍혀있다.
+        # ax.set_box_aspect([0.5, 1, 1])  # sqat_img6.PNG 비율
+        #
+        # # 축 레이블을 설정합니다.
+        # ax.set_xlabel('X')
+        # ax.set_ylabel('Y')
+        # ax.set_zlabel('Z')
+        #
+        # # 그래프를 표시합니다.
+        # plt.show()
 
         # 데이터프레임에 새로운 행 추가
         now_points = [ landmarks_adjust_ratio[mp_pose.PoseLandmark.RIGHT_SHOULDER.value][0],
@@ -270,14 +340,14 @@ while video.isOpened():
                        landmarks_adjust_ratio[mp_pose.PoseLandmark.LEFT_ANKLE.value][2] ]
 
         df.loc[len(df)] = now_points
-
+        i += 1
     # 관절이 하나도 인식되지 않았음 -> 오류 메세지 출력
     else:
         cv2.putText(frame, "some or all landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
         print("랜드마크 검출 불가")
 
     # 현재 프레임 번호 출력
-    print(i, '번째 프레임')
+    print(i, '번째 csv행')
 
     # 프레임 출력
     cv2.imshow('Pose Detection', frame)

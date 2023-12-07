@@ -58,8 +58,6 @@ def detectPose(image, pose, display=True):
       for landmark in results.pose_landmarks.landmark:
 
         # landmark를 list에 추가하기
-        # 이미지의 비율에 맞게 값을 곱해 정규화 해제
-        # z값은 이미지의 비율을 알 수 없으므로 대충 너비의 나누기 3한 값을 곱해준다. -> 나중에 적당한 z가중치를 찾는 코드 추가해야 할 듯
         landmarks.append((float(landmark.x), float(landmark.y), float(landmark.z)))
 
     # 오리지널 image와 pose detect된 image 비교
@@ -147,39 +145,72 @@ def calculateDistance(landmark1, landmark2):
 
     return distance
 
+def rotate_around_left_hip(landmarks, rotation_angle_x=0, rotation_angle_y=0, rotation_angle_z=0):
+    # 왼쪽 엉덩이의 좌표
+    left_hip = np.array(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value])
+
+    # 회전 행렬 생성
+    rotation_matrix_x = np.array([[1, 0, 0],
+                                  [0, math.cos(math.radians(rotation_angle_x)), -math.sin(math.radians(rotation_angle_x))],
+                                  [0, math.sin(math.radians(rotation_angle_x)), math.cos(math.radians(rotation_angle_x))]])
+
+    rotation_matrix_y = np.array([[math.cos(math.radians(rotation_angle_y)), 0, math.sin(math.radians(rotation_angle_y))],
+                                  [0, 1, 0],
+                                  [-math.sin(math.radians(rotation_angle_y)), 0, math.cos(math.radians(rotation_angle_y))]])
+
+    rotation_matrix_z = np.array([[math.cos(math.radians(rotation_angle_z)), -math.sin(math.radians(rotation_angle_z)), 0],
+                                  [math.sin(math.radians(rotation_angle_z)), math.cos(math.radians(rotation_angle_z)), 0],
+                                  [0, 0, 1]])
+
+    # 회전 각도에 따라 각각 x, y, z 축으로 회전 적용
+    rotated_landmarks = []
+    for landmark in landmarks:
+        rotated_landmark = np.array(landmark) - left_hip
+        rotated_landmark = np.dot(rotation_matrix_x, rotated_landmark)
+        rotated_landmark = np.dot(rotation_matrix_y, rotated_landmark)
+        rotated_landmark = np.dot(rotation_matrix_z, rotated_landmark)
+        rotated_landmark += left_hip
+        rotated_landmarks.append(tuple(rotated_landmark))
+
+    return rotated_landmarks
+
+
+# 리스트에서 최대값의 인덱스를 찾는 함수
+def find_max_index(lst):
+    max_value = lst[0]
+    max_index = 0
+
+    for i in range(1, len(lst)):
+        if lst[i] > max_value:
+            max_value = lst[i]
+            max_index = i
+
+    return max_index
+
 
 # pose detection function start
 
 # 동영상 또는 웹캠 관절인식 결과 확인 코드
 
 # Setup Pose function for video.
-pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, model_complexity=1)
+pose_video = mp_pose.Pose(static_image_mode=False,
+                          min_tracking_confidence=0.1,
+                          min_detection_confidence=0.8,
+                          model_complexity=1,
+                          smooth_landmarks=True)
 
 # Initialize the VideoCapture object to read from the webcam.
-video = cv2.VideoCapture(0)
-
-# # 원본 동영상 크기 정보
-# w = video.get(cv2.CAP_PROP_FRAME_WIDTH)
-# h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-# print("원본 동영상 너비(가로) : {}, 높이(세로) : {}".format(w, h))
-
-# # 카메라 비율 설정, 3:4비율을 지원하지 않는다면 3:4와 비슷한 비율로 설정된다
-# video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-# video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-
-# # 변환된 동영상 크기 정보
-# w = video.get(cv2.CAP_PROP_FRAME_WIDTH)
-# h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-# print("변환된 동영상 너비(가로) : {}, 높이(세로) : {}".format(w, h))
+# video = cv2.VideoCapture(0)
 
 # Initialize the VideoCapture object to read from  a video stored in the disk.
-# video = cv2.VideoCapture('./deaheon3.mp4')
-# video = cv2.VideoCapture('./my_squat_train.mp4')
+video = cv2.VideoCapture('./simulation2.mp4')
 
 # 스쿼트 카운트 관련 변수
 squatCnt = 0
 squatBeforeState = 1    # 일어서 있는 상태로 초기 설정 (1)
 squatNowState = 1   # 일어서 있는 상태로 초기 설정 (1)
+squatState = []  # 스쿼트 진행 상태를 기록하는 리스트 (올바른 자세: 1, 잘못된 자세: 0)
+squatAccuracy = -1  # 스쿼트 정확도 초기값 -1
 
 # 반복문 일시 정지를 위한 변수
 paused = False
@@ -188,8 +219,7 @@ paused = False
 i = 0
 
 # 학습된 모델 불러오기
-# model = tf.keras.models.load_model('models/model_ver1.h5')
-model = tf.keras.models.load_model('models/my_model_points.h5')
+model = tf.keras.models.load_model('models/model_2.h5')
 
 # Iterate until the video is accessed successfully.
 while video.isOpened():
@@ -215,7 +245,7 @@ while video.isOpened():
     results, frame, landmarks = detectPose(frame, pose_video, display=False)
 
     # 모든 landmark가 인식되었는지 확인
-    if results.pose_world_landmarks is not None and all(results.pose_world_landmarks.landmark[j].visibility > 0.5  for j in range(0, 33)):
+    if results.pose_world_landmarks is not None and all(results.pose_world_landmarks.landmark[j].visibility > 0.1 for j in [11, 12, 23, 24, 25, 26, 27, 28]):
         cv2.putText(frame, "all landmarks detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
         # 여기서부터 점 좌표 정규화
@@ -231,17 +261,27 @@ while video.isOpened():
                                            landmarks[j][1] + adjust_y,
                                            landmarks[j][2] + adjust_z))
 
+        # 왼쪽 엉덩이를 기준으로 정면 보도록 모든 좌표 회전
+        left_hip = np.array(landmarks_adjust_point[mp_pose.PoseLandmark.LEFT_HIP.value])
+        right_hip = np.array(landmarks_adjust_point[mp_pose.PoseLandmark.RIGHT_HIP.value])
+
+        rotation_angle_y = math.degrees(math.atan2(right_hip[2] - left_hip[2], right_hip[0] - left_hip[0]))
+
+        landmarks_rotated = rotate_around_left_hip(landmarks_adjust_point, 0, rotation_angle_y, 0)
+        landmarks_rotated = rotate_around_left_hip(landmarks_rotated, 270, 0, 180)
+
         # 엉덩이 사이의 거리를 1으로 하여 모든 관절을 정규화
-        hip_distance = calculateDistance(landmarks_adjust_point[mp_pose.PoseLandmark.LEFT_HIP.value],
-                                         landmarks_adjust_point[mp_pose.PoseLandmark.RIGHT_HIP.value])
+        hip_distance = calculateDistance(landmarks_rotated[mp_pose.PoseLandmark.LEFT_HIP.value],
+                                         landmarks_rotated[mp_pose.PoseLandmark.RIGHT_HIP.value])
 
         landmarks_adjust_ratio = []
 
         for j in range(0, 33):
-            landmarks_adjust_ratio.append((landmarks_adjust_point[j][0] / hip_distance,
-                                           landmarks_adjust_point[j][1] / hip_distance,
-                                           landmarks_adjust_point[j][2] / hip_distance))
+            normalized_x = landmarks_rotated[j][0] / hip_distance
+            normalized_y = landmarks_rotated[j][1] / hip_distance
+            normalized_z = landmarks_rotated[j][2] / hip_distance
 
+            landmarks_adjust_ratio.append((normalized_x, normalized_y, normalized_z))
         # 여기까지 점 좌표 정규화
 
         # 데이터프레임에 새로운 행 추가
@@ -274,66 +314,57 @@ while video.isOpened():
 
         # 계산된 값들을 모델에 입력으로 넣은 후 결과 확인
         # 예측값이 1에 가까울수록 일어서있을 확률이 높고, 0에 가까울수록 앉아있을 확률이 높다.
-        # pre = model.predict(np.array([[back_angle_right, back_angle_left, knee_angle_right, knee_angle_left, ankle_knee_knee_right, ankle_knee_knee_left]]))
         pre = model.predict(np.array(now_points))
-        # print(pre)
+        print(pre[0])
+        print(find_max_index(pre[0])+1, "번째 클래스")
+        class_list = ['good_stand', 'good_progress', 'good_sit',
+                      'knee_narrow_progress', 'knee_narrow_sit',
+                      'knee_wide_progress', 'knee_wide_sit']
+        class_idx = find_max_index(pre[0])
 
-        # 예측값이 0.9보다 높다면 일어서 있는것으로 판단
-        if pre[0][0] > 0.8:
+
+        if class_idx == 0:
+            squatState.append(1)
+            cv2.putText(frame, f"Class: {class_list[class_idx]}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+        elif class_idx < 3:
+            squatState.append(1)
+            cv2.putText(frame, f"Class: {class_list[class_idx]}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+        else:
+            squatState.append(0)
+            cv2.putText(frame, f"Class: {class_list[class_idx]}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+
+        cv2.putText(frame, f"Reliability: {max(pre[0]):.3f}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+
+        # 예측값이 0.8보다 높다면 일어서 있는것으로 판단
+        if class_idx == 0:
             squatNowState = 1
         # 예측값이 0.1보다 낮다면 앉아 있는것으로 판단
-        elif pre[0][0] < 0.2:
+        elif class_idx == 2 or class_idx == 4 or class_idx == 6:
             squatNowState = 0
 
         # 만약 squatBeforeState(이전 상태)가 0(앉은 상태)였는데
         # squatNowState(현재 상태)가 1(서있는 상태)가 되면 squatCnt증가
         if squatBeforeState == 0 and squatNowState == 1:
-            squatCnt += 1
+            squatAccuracy = sum(squatState)/len(squatState)
+
+            if squatAccuracy > 0.7:
+                squatCnt += 1
+
+            squatState = []
 
         # 다음 프레임을 받아오기 전에 squatNowState를 squatBeforeState에 기억시킨다.
         squatBeforeState = squatNowState
 
+        # 이번에 한 스쿼트 정확도 출력
+        if squatAccuracy > 0.7:
+            cv2.putText(frame, f"{squatAccuracy * 100:.1f}%", (360, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
+        elif squatAccuracy > 0:
+            cv2.putText(frame, f"{squatAccuracy * 100:.1f}%", (360, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 255), 3)
+
         # 스쿼트 개수 화면에 출력
         cv2.putText(frame, f"squatCnt: {squatCnt}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
-        # is_stand 화면에 출력
-        if pre[0][0] > 0.8:
-            cv2.putText(frame, f"is_stand: {pre[0][0]:.4f}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
-        elif pre[0][0] < 0.2:
-            cv2.putText(frame, f"is_stand: {pre[0][0]:.4f}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-        else:
-            cv2.putText(frame, f"is_stand: {pre[0][0]:.4f}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-
-        # is_back_front 화면에 출력
-        if pre[0][1] > 0.8:
-            cv2.putText(frame, f"is_back_front: {pre[0][1]:.4f}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255),
-                        2)
-        else:
-            cv2.putText(frame, f"is_back_front: {pre[0][1]:.4f}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0),
-                        2)
-
-        # is_knee_narrow 화면에 출력
-        if pre[0][2] > 0.8:
-            cv2.putText(frame, f"is_knee_narrow: {pre[0][2]:.4f}", (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
-                        (0, 0, 255), 2)
-        else:
-            cv2.putText(frame, f"is_knee_narrow: {pre[0][2]:.4f}", (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
-                        (0, 255, 0), 2)
-        # is_knee_wide 화면에 출력
-
-        if pre[0][3] > 0.8:
-            cv2.putText(frame, f"is_knee_wide: {pre[0][3]:.4f}", (10, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255),
-                        2)
-        else:
-            cv2.putText(frame, f"is_knee_wide: {pre[0][3]:.4f}", (10, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0),
-                        2)
-        # print("스쿼트 개수:", squatCnt)
-        # print("is_stand:", pre[0][0])
-        # print("is_back_front:", pre[0][1])
-        # print("is_knee_narrow:", pre[0][2])
-        # print("is_knee_wide:", pre[0][3])
-
-    # 관절이 하나도 인식되지 않았음 -> 오류 메세지 출력
+    # 관절이 하나라도 인식되지 않았음 -> 오류 메세지 출력
     else:
         cv2.putText(frame, "some or all landmarks not detected", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
         print("랜드마크 검출 불가")
