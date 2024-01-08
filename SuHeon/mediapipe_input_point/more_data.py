@@ -4,13 +4,19 @@ import pandas as pd
 import numpy as np
 
 # CSV 파일 불러오기
-data_train = pd.read_csv("train2.csv")
+data_train = pd.read_csv("train0.csv")
 
-# 평균=0, 표준편차=0.05인 정규분포 난수값 더하기
-for column in data_train.columns:
-    if column != 'label':  # 'label' 열은 레이블이므로 제외
-        noise = np.random.normal(loc=0, scale=0.1, size=len(data_train))
-        data_train[column] = data_train[column] + noise
+for i in range(100):
+    data_tmp = pd.read_csv("train0.csv")
+
+    # 평균=0, 표준편차=0.05인 정규분포 난수값 더하기
+    for column in data_tmp.columns:
+        if column != 'label':  # 'label' 열은 레이블이므로 제외
+            noise = np.random.normal(loc=0, scale=0.1, size=len(data_tmp))
+            data_tmp[column] = data_tmp[column] + noise
+
+
+    data_train = pd.concat([data_train, data_tmp])
 
 print(data_train)
 # print(np.random.normal(loc=0, scale=0.1, size=100))

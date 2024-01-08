@@ -4,8 +4,8 @@ import tensorflow as tf
 from sklearn.preprocessing import LabelEncoder
 
 # train CSV 파일 불러오기
-data_train = pd.read_csv("train3.csv")
-
+data_train = pd.read_csv("train50.csv")
+print(len(data_train))
 # 공백이 있는 행 제거
 data_train = data_train.dropna()
 
@@ -37,13 +37,13 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(24,), name='points'),
     tf.keras.layers.Dense(64, activation='relu'),
     tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dense(num_classes, activation='softmax'),  # 수정된 부분
+    tf.keras.layers.Dense(num_classes, activation='softmax'),
 ])
 
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])  # 수정된 부분
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # 학습 시작
 model.fit(np.array(x_train), np.array(y_train), epochs=10, batch_size=32)
 
 # 모델 저장
-model.save('./models/model_2.h5')
+model.save('./models/model_50.h5')

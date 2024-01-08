@@ -203,7 +203,7 @@ pose_video = mp_pose.Pose(static_image_mode=False,
 # video = cv2.VideoCapture(0)
 
 # Initialize the VideoCapture object to read from  a video stored in the disk.
-video = cv2.VideoCapture('./simulation2.mp4')
+video = cv2.VideoCapture('./simulation4.mp4')
 
 # 스쿼트 카운트 관련 변수
 squatCnt = 0
@@ -219,7 +219,7 @@ paused = False
 i = 0
 
 # 학습된 모델 불러오기
-model = tf.keras.models.load_model('models/model_2.h5')
+model = tf.keras.models.load_model('models/model_50.h5')
 
 # Iterate until the video is accessed successfully.
 while video.isOpened():
@@ -324,7 +324,7 @@ while video.isOpened():
 
 
         if class_idx == 0:
-            squatState.append(1)
+            # squatState.append(1)
             cv2.putText(frame, f"Class: {class_list[class_idx]}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
         elif class_idx < 3:
             squatState.append(1)
@@ -356,9 +356,9 @@ while video.isOpened():
         squatBeforeState = squatNowState
 
         # 이번에 한 스쿼트 정확도 출력
-        if squatAccuracy > 0.7:
+        if squatAccuracy >= 0.7:
             cv2.putText(frame, f"{squatAccuracy * 100:.1f}%", (360, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
-        elif squatAccuracy > 0:
+        elif squatAccuracy >= 0:
             cv2.putText(frame, f"{squatAccuracy * 100:.1f}%", (360, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 255), 3)
 
         # 스쿼트 개수 화면에 출력
@@ -371,7 +371,7 @@ while video.isOpened():
 
     # 현재 프레임 출력
     print(i, '번째 프레임')
-
+    print('정확도:',squatAccuracy)
     # 프레임 출력
     cv2.imshow('Pose Detection', frame)
 
