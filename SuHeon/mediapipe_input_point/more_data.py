@@ -4,10 +4,10 @@ import pandas as pd
 import numpy as np
 
 # CSV 파일 불러오기
-data_train = pd.read_csv("train0.csv")
+data_train = pd.read_csv("train_new.csv")
 
-for i in range(100):
-    data_tmp = pd.read_csv("train0.csv")
+for i in range(10):
+    data_tmp = pd.read_csv("train_new.csv")
 
     # 평균=0, 표준편차=0.05인 정규분포 난수값 더하기
     for column in data_tmp.columns:
@@ -21,4 +21,4 @@ for i in range(100):
 print(data_train)
 # print(np.random.normal(loc=0, scale=0.1, size=100))
 # csv파일로 저장
-data_train.to_csv("train_new.csv", index=False)
+data_train.to_csv("train_more_data.csv", index=False)

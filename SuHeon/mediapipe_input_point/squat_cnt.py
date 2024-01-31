@@ -203,7 +203,7 @@ pose_video = mp_pose.Pose(static_image_mode=False,
 # video = cv2.VideoCapture(0)
 
 # Initialize the VideoCapture object to read from  a video stored in the disk.
-video = cv2.VideoCapture('./simulation4.mp4')
+video = cv2.VideoCapture('./simulation2.mp4')
 
 # 스쿼트 카운트 관련 변수
 squatCnt = 0
@@ -219,7 +219,7 @@ paused = False
 i = 0
 
 # 학습된 모델 불러오기
-model = tf.keras.models.load_model('models/model_50.h5')
+model = tf.keras.models.load_model('models/model_new_0.h5')
 
 # Iterate until the video is accessed successfully.
 while video.isOpened():
@@ -315,8 +315,8 @@ while video.isOpened():
         # 계산된 값들을 모델에 입력으로 넣은 후 결과 확인
         # 예측값이 1에 가까울수록 일어서있을 확률이 높고, 0에 가까울수록 앉아있을 확률이 높다.
         pre = model.predict(np.array(now_points))
-        print(pre[0])
-        print(find_max_index(pre[0])+1, "번째 클래스")
+        # print(pre[0])
+        # print(find_max_index(pre[0])+1, "번째 클래스")
         class_list = ['good_stand', 'good_progress', 'good_sit',
                       'knee_narrow_progress', 'knee_narrow_sit',
                       'knee_wide_progress', 'knee_wide_sit']

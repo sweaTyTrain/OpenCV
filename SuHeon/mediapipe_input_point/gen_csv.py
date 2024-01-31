@@ -193,7 +193,7 @@ pose_video = mp_pose.Pose(static_image_mode=False,
 # video = cv2.VideoCapture(0)
 
 # Initialize the VideoCapture object to read from a video stored in the disk.
-video = cv2.VideoCapture('./simulation1.mp4')
+video = cv2.VideoCapture('./squat_3.mp4')
 
 # 빈 데이터프레임 생성
 df = pd.DataFrame(columns=['right_shoulder_x', 'right_shoulder_y', 'right_shoulder_z',
