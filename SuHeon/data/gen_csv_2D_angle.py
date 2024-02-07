@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import tensorflow as tf
 
-video_route = './train/video/squat_123.mp4'
+video_route = './train/video/squat_1.mp4'
 csv_save_route = './train/2D_angle_csv/new_test.csv'
 
 # Initializing mediapipe pose class.
