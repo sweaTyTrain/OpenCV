@@ -1,11 +1,372 @@
 import joblib
 import pandas as pd
+import numpy as np
+
+import tensorflow as tf
 from sklearn.ensemble import RandomForestClassifier
 from lightgbm import LGBMClassifier
 from xgboost import XGBClassifier
+
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
+
+def DNN_2D_angle(train_route, model_save_route, test_base_route, do_eval=False):
+    # train CSV 파일 불러오기
+    data_train = pd.read_csv(train_route)
+    print(len(data_train))
+
+    # 공백이 있는 행 제거
+    data_train = data_train.dropna()
+
+    # x_train과 y_train 추출
+    X = data_train[['back_angle_R', 'back_angle_L',
+                    'knee_angle_R', 'knee_angle_L',
+                    'ankle_knee_knee_R', 'ankle_knee_knee_L',
+                    'hip_hip_knee_R', 'hip_hip_knee_L',
+                    'knee_knee_dis']]
+    y = data_train['label']
+
+    # 데이터를 학습용과 테스트용으로 분리
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # 원-핫 인코딩
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
+
+    # 텐서플로우 랜덤 시드 설정
+    tf.random.set_seed(66)
+    initializer = tf.keras.initializers.GlorotUniform(seed=66)
+
+    # DNN 모델 생성
+    dnn_model = tf.keras.models.Sequential([
+        tf.keras.layers.Input(shape=(9,), name='angles'),
+        tf.keras.layers.Dense(32, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(64, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(128, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(256, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(512, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(1024, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(2048, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(4096, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(7, activation='softmax', kernel_initializer=initializer),
+    ])
+
+    # 모델 학습 과정 설정
+    dnn_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    # loss가 5번이상 떨어지면 과적합 방지를 위해 학습중지
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10, mode='min')
+
+    # DNN 모델 학습
+    history = dnn_model.fit(np.array(X_train), np.array(y_train), epochs=1000, callbacks=[early_stopping])
+
+    # 손실률, 정확도 출력
+    # train_loss, train_accuracy = dnn_model.evaluate(X_train, y_train)
+    test_loss, test_accuracy = dnn_model.evaluate(X_test, y_test)
+    # print(f'Train data Accuracy: {train_accuracy:.3f}')
+    print(f'Test data Accuracy: {test_accuracy:.3f}')
+
+    # 모델 저장
+    dnn_model.save(model_save_route)
+
+    if do_eval:
+        for i in range(1, 4):
+            for j in range(1, 4):
+                test_csv = f'test{i}_{j}.csv'
+                test_full_path = test_base_route + test_csv
+
+                # 저장된 모델 불러오기
+                loaded_model = tf.keras.models.load_model(model_save_route)
+
+                # 새로운 데이터 불러오기
+                new_data = pd.read_csv(test_full_path)
+
+                # x_new 추출
+                X_new = new_data[['back_angle_R', 'back_angle_L',
+                                  'knee_angle_R', 'knee_angle_L',
+                                  'ankle_knee_knee_R', 'ankle_knee_knee_L',
+                                  'hip_hip_knee_R', 'hip_hip_knee_L',
+                                  'knee_knee_dis']]
+                y_new = new_data['label']
+
+                # 원-핫 인코딩
+                y_new = tf.keras.utils.to_categorical(y_new)
+
+                # 정확도 출력
+                new_loss, new_accuracy = loaded_model.evaluate(X_new, y_new)
+                print(f'New data Accuracy: {new_accuracy:.3f}')
+
+def DNN_2D_point(train_route, model_save_route, test_base_route, do_eval=False):
+    # train CSV 파일 불러오기
+    data_train = pd.read_csv(train_route)
+    print(len(data_train))
+
+    # 공백이 있는 행 제거
+    data_train = data_train.dropna()
+
+    # x_train과 y_train 추출
+    X = data_train[['right_shoulder_x', 'right_shoulder_y',
+                    'left_shoulder_x', 'left_shoulder_y',
+                    'right_hip_x', 'right_hip_y',
+                    'left_hip_x', 'left_hip_y',
+                    'right_knee_x', 'right_knee_y',
+                    'left_knee_x', 'left_knee_y',
+                    'right_ankle_x', 'right_ankle_y',
+                    'left_ankle_x', 'left_ankle_y']]
+    y = data_train['label']
+
+    # 데이터를 학습용과 테스트용으로 분리
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # 원-핫 인코딩
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
+
+    # 텐서플로우 랜덤 시드 설정
+    tf.random.set_seed(66)
+    initializer = tf.keras.initializers.GlorotUniform(seed=66)
+
+    # DNN 모델 생성
+    dnn_model = tf.keras.models.Sequential([
+        tf.keras.layers.Input(shape=(16,), name='points'),
+        tf.keras.layers.Dense(32, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(64, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(128, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(256, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(512, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(1024, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(2048, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(4096, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(7, activation='softmax', kernel_initializer=initializer),
+    ])
+
+    # 모델 학습 과정 설정
+    dnn_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    # loss가 10번이상 떨어지면 과적합 방지를 위해 학습중지
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10, mode='min')
+
+    # DNN 모델 학습
+    history = dnn_model.fit(np.array(X_train), np.array(y_train), epochs=1000, callbacks=[early_stopping])
+
+    # 손실률, 정확도 출력
+    # train_loss, train_accuracy = dnn_model.evaluate(X_train, y_train)
+    test_loss, test_accuracy = dnn_model.evaluate(X_test, y_test)
+    # print(f'Train data Accuracy: {train_accuracy:.3f}')
+    print(f'Test data Accuracy: {test_accuracy:.3f}')
+
+    # 모델 저장
+    dnn_model.save(model_save_route)
+
+    if do_eval:
+        for i in range(1, 4):
+            for j in range(1, 4):
+                test_csv = f'test{i}_{j}.csv'
+                test_full_path = test_base_route + test_csv
+
+                # 저장된 모델 불러오기
+                loaded_model = tf.keras.models.load_model(model_save_route)
+
+                # 새로운 데이터 불러오기
+                new_data = pd.read_csv(test_full_path)
+
+                # x_new 추출
+                X_new = new_data[['right_shoulder_x', 'right_shoulder_y',
+                                  'left_shoulder_x', 'left_shoulder_y',
+                                  'right_hip_x', 'right_hip_y',
+                                  'left_hip_x', 'left_hip_y',
+                                  'right_knee_x', 'right_knee_y',
+                                  'left_knee_x', 'left_knee_y',
+                                  'right_ankle_x', 'right_ankle_y',
+                                  'left_ankle_x', 'left_ankle_y']]
+                y_new = new_data['label']
+
+                # 원-핫 인코딩
+                y_new = tf.keras.utils.to_categorical(y_new)
+
+                # 정확도 출력
+                new_loss, new_accuracy = loaded_model.evaluate(X_new, y_new)
+                print(f'New data Accuracy: {new_accuracy:.3f}')
+
+def DNN_3D_angle(train_route, model_save_route, test_base_route, do_eval=False):
+    # train CSV 파일 불러오기
+    data_train = pd.read_csv(train_route)
+    print(len(data_train))
+
+    # 공백이 있는 행 제거
+    data_train = data_train.dropna()
+
+    # x_train과 y_train 추출
+    X = data_train[['back_angle_R', 'back_angle_L',
+                    'knee_angle_R', 'knee_angle_L',
+                    'ankle_knee_knee_R', 'ankle_knee_knee_L',
+                    'hip_hip_knee_R', 'hip_hip_knee_L',
+                    'knee_knee_dis']]
+    y = data_train['label']
+
+    # 데이터를 학습용과 테스트용으로 분리
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # 원-핫 인코딩
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
+
+    # 텐서플로우 랜덤 시드 설정
+    tf.random.set_seed(66)
+    initializer = tf.keras.initializers.GlorotUniform(seed=66)
+
+    # DNN 모델 생성
+    dnn_model = tf.keras.models.Sequential([
+        tf.keras.layers.Input(shape=(9,), name='angles'),
+        tf.keras.layers.Dense(32, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(64, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(128, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(256, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(512, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(1024, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(2048, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(4096, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(7, activation='softmax', kernel_initializer=initializer),
+    ])
+
+    # 모델 학습 과정 설정
+    dnn_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    # loss가 10번이상 떨어지면 과적합 방지를 위해 학습중지
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10, mode='min')
+
+    # DNN 모델 학습
+    history = dnn_model.fit(np.array(X_train), np.array(y_train), epochs=1000, callbacks=[early_stopping])
+
+    # 손실률, 정확도 출력
+    # train_loss, train_accuracy = dnn_model.evaluate(X_train, y_train)
+    test_loss, test_accuracy = dnn_model.evaluate(X_test, y_test)
+    # print(f'Train data Accuracy: {train_accuracy:.3f}')
+    print(f'Test data Accuracy: {test_accuracy:.3f}')
+
+    # 모델 저장
+    dnn_model.save(model_save_route)
+
+    if do_eval:
+        for i in range(1, 4):
+            for j in range(1, 4):
+                test_csv = f'test{i}_{j}.csv'
+                test_full_path = test_base_route + test_csv
+
+                # 저장된 모델 불러오기
+                loaded_model = tf.keras.models.load_model(model_save_route)
+
+                # 새로운 데이터 불러오기
+                new_data = pd.read_csv(test_full_path)
+
+                # x_new 추출
+                X_new = new_data[['back_angle_R', 'back_angle_L',
+                                  'knee_angle_R', 'knee_angle_L',
+                                  'ankle_knee_knee_R', 'ankle_knee_knee_L',
+                                  'hip_hip_knee_R', 'hip_hip_knee_L',
+                                  'knee_knee_dis']]
+                y_new = new_data['label']
+
+                # 원-핫 인코딩
+                y_new = tf.keras.utils.to_categorical(y_new)
+
+                # 정확도 출력
+                new_loss, new_accuracy = loaded_model.evaluate(X_new, y_new)
+                print(f'New data Accuracy: {new_accuracy:.3f}')
+
+def DNN_3D_point(train_route, model_save_route, test_base_route, do_eval=False):
+    # train CSV 파일 불러오기
+    data_train = pd.read_csv(train_route)
+    print(len(data_train))
+
+    # 공백이 있는 행 제거
+    data_train = data_train.dropna()
+
+    # x_train과 y_train 추출
+    X = data_train[['right_shoulder_x', 'right_shoulder_y', 'right_shoulder_z',
+                    'left_shoulder_x', 'left_shoulder_y', 'left_shoulder_z',
+                    'right_hip_x', 'right_hip_y', 'right_hip_z',
+                    'left_hip_x', 'left_hip_y', 'left_hip_z',
+                    'right_knee_x', 'right_knee_y', 'right_knee_z',
+                    'left_knee_x', 'left_knee_y', 'left_knee_z',
+                    'right_ankle_x', 'right_ankle_y', 'right_ankle_z',
+                    'left_ankle_x', 'left_ankle_y', 'left_ankle_z']]
+    y = data_train['label']
+
+    # 데이터를 학습용과 테스트용으로 분리
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # 원-핫 인코딩
+    y_train = tf.keras.utils.to_categorical(y_train)
+    y_test = tf.keras.utils.to_categorical(y_test)
+
+    # 텐서플로우 랜덤 시드 설정
+    tf.random.set_seed(66)
+    initializer = tf.keras.initializers.GlorotUniform(seed=66)
+
+    # DNN 모델 생성
+    dnn_model = tf.keras.models.Sequential([
+        tf.keras.layers.Input(shape=(24,), name='angles'),
+        tf.keras.layers.Dense(32, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(64, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(128, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(256, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(512, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(1024, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(2048, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(4096, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Dense(7, activation='softmax', kernel_initializer=initializer),
+    ])
+
+    # 모델 학습 과정 설정
+    dnn_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    # loss가 5번이상 떨어지면 과적합 방지를 위해 학습중지
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10, mode='min')
+
+    # DNN 모델 학습
+    history = dnn_model.fit(np.array(X_train), np.array(y_train), epochs=1000, callbacks=[early_stopping])
+
+    # 손실률, 정확도 출력
+    # train_loss, train_accuracy = dnn_model.evaluate(X_train, y_train)
+    test_loss, test_accuracy = dnn_model.evaluate(X_test, y_test)
+    # print(f'Train data Accuracy: {train_accuracy:.3f}')
+    print(f'Test data Accuracy: {test_accuracy:.3f}')
+
+    # 모델 저장
+    dnn_model.save(model_save_route)
+
+    if do_eval:
+        for i in range(1, 4):
+            for j in range(1, 4):
+                test_csv = f'test{i}_{j}.csv'
+                test_full_path = test_base_route + test_csv
+
+                # 저장된 모델 불러오기
+                loaded_model = tf.keras.models.load_model(model_save_route)
+
+                # 새로운 데이터 불러오기
+                new_data = pd.read_csv(test_full_path)
+
+                # x_new 추출
+                X_new = new_data[['right_shoulder_x', 'right_shoulder_y', 'right_shoulder_z',
+                                  'left_shoulder_x', 'left_shoulder_y', 'left_shoulder_z',
+                                  'right_hip_x', 'right_hip_y', 'right_hip_z',
+                                  'left_hip_x', 'left_hip_y', 'left_hip_z',
+                                  'right_knee_x', 'right_knee_y', 'right_knee_z',
+                                  'left_knee_x', 'left_knee_y', 'left_knee_z',
+                                  'right_ankle_x', 'right_ankle_y', 'right_ankle_z',
+                                  'left_ankle_x', 'left_ankle_y', 'left_ankle_z']]
+                y_new = new_data['label']
+
+                # 원-핫 인코딩
+                y_new = tf.keras.utils.to_categorical(y_new)
+
+                # 정확도 출력
+                new_loss, new_accuracy = loaded_model.evaluate(X_new, y_new)
+                print(f'New data Accuracy: {new_accuracy:.3f}')
+
 
 def RF_2D_angle(train_route, model_save_route, test_base_route, do_eval=False):
     # train CSV 파일 불러오기
