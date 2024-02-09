@@ -15,8 +15,16 @@ def play_2D_angle(test_video_path, model_path):
     # Initialize the VideoCapture object to read from  a video stored in the disk.
     video = cv2.VideoCapture(test_video_path)
 
-    # 학습된 모델 불러오기
-    model = joblib.load(model_path)
+    # 모델 확장자가 .h5일 때와 .joblib일 때 모델을 불러오는 방법이 다름
+    file_extension = model_path.split('.')[-1]
+
+    if file_extension == 'h5':
+        model = tf.keras.models.load_model(model_path)
+    elif file_extension == 'joblib':
+        model = joblib.load(model_path)
+    else:
+        print("잘못된 모델 확장자")
+        return
 
     # Initializing mediapipe pose class.
     # mediapipe pose class를 초기화 한다.
@@ -179,14 +187,15 @@ def play_2D_angle(test_video_path, model_path):
 
             # 계산된 값들을 모델에 입력으로 넣은 후 결과 확인
             # 예측값이 1에 가까울수록 일어서있을 확률이 높고, 0에 가까울수록 앉아있을 확률이 높다.
-            pre = model.predict(now_points)
-            pre_reli = model.predict_proba(now_points)
-            # print(pre[0])
-            # print(find_max_index(pre[0])+1, "번째 클래스")
+            if file_extension == 'h5':
+                pre = model.predict(now_points)
+            elif file_extension == 'joblib':
+                pre = model.predict_proba(now_points)
+
             class_list = ['good_stand', 'good_progress', 'good_sit',
                           'knee_narrow_progress', 'knee_narrow_sit',
                           'knee_wide_progress', 'knee_wide_sit']
-            class_idx = pre[0]
+            class_idx = modules.find_max_index(pre[0])
 
             # 연속 5프레임 똑같은 class가 나오면 제대로 인식했다고 판정
             stateQueue.pop(0)
@@ -214,7 +223,7 @@ def play_2D_angle(test_video_path, model_path):
                 cv2.putText(frame, f"Class: {class_list[class_idx_adj]}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                             (0, 0, 255), 2)
 
-            cv2.putText(frame, f"Reliability: {max(pre_reli[0])}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
+            cv2.putText(frame, f"Reliability: {max(pre[0]):.3f}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                         (0, 255, 0), 2)
 
             # 예측값이 0.8보다 높다면 일어서 있는것으로 판단
@@ -279,6 +288,7 @@ def play_2D_angle(test_video_path, model_path):
                 if k == 32:
                     paused = False
                     break
+        print(pre[0])
         print(i, '번째 프레임')
         print("stateQueue:", stateQueue)
         print("all_same:", all_same)
@@ -295,8 +305,16 @@ def play_2D_point(test_video_path, model_path):
     # Initialize the VideoCapture object to read from  a video stored in the disk.
     video = cv2.VideoCapture(test_video_path)
 
-    # 학습된 모델 불러오기
-    model = joblib.load(model_path)
+    # 모델 확장자가 .h5일 때와 .joblib일 때 모델을 불러오는 방법이 다름
+    file_extension = model_path.split('.')[-1]
+
+    if file_extension == 'h5':
+        model = tf.keras.models.load_model(model_path)
+    elif file_extension == 'joblib':
+        model = joblib.load(model_path)
+    else:
+        print("잘못된 모델 확장자")
+        return
 
     # Initializing mediapipe pose class.
     # mediapipe pose class를 초기화 한다.
@@ -423,14 +441,15 @@ def play_2D_point(test_video_path, model_path):
 
             # 계산된 값들을 모델에 입력으로 넣은 후 결과 확인
             # 예측값이 1에 가까울수록 일어서있을 확률이 높고, 0에 가까울수록 앉아있을 확률이 높다.
-            pre = model.predict(now_points)
-            pre_reli = model.predict_proba(now_points)
-            # print(pre[0])
-            # print(find_max_index(pre[0])+1, "번째 클래스")
+            if file_extension == 'h5':
+                pre = model.predict(now_points)
+            elif file_extension == 'joblib':
+                pre = model.predict_proba(now_points)
+
             class_list = ['good_stand', 'good_progress', 'good_sit',
                           'knee_narrow_progress', 'knee_narrow_sit',
                           'knee_wide_progress', 'knee_wide_sit']
-            class_idx = pre[0]
+            class_idx = modules.find_max_index(pre[0])
 
             # 연속 5프레임 똑같은 class가 나오면 제대로 인식했다고 판정
             stateQueue.pop(0)
@@ -458,7 +477,7 @@ def play_2D_point(test_video_path, model_path):
                 cv2.putText(frame, f"Class: {class_list[class_idx_adj]}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                             (0, 0, 255), 2)
 
-            cv2.putText(frame, f"Reliability: {max(pre_reli[0])}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
+            cv2.putText(frame, f"Reliability: {max(pre[0]):.3f}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                         (0, 255, 0), 2)
 
             # 예측값이 0.8보다 높다면 일어서 있는것으로 판단
@@ -523,6 +542,7 @@ def play_2D_point(test_video_path, model_path):
                 if k == 32:
                     paused = False
                     break
+        print(pre[0])
         print(i, '번째 프레임')
         print("stateQueue:", stateQueue)
         print("all_same:", all_same)
@@ -539,8 +559,16 @@ def play_3D_angle(test_video_path, model_path):
     # Initialize the VideoCapture object to read from  a video stored in the disk.
     video = cv2.VideoCapture(test_video_path)
 
-    # 학습된 모델 불러오기
-    model = joblib.load(model_path)
+    # 모델 확장자가 .h5일 때와 .joblib일 때 모델을 불러오는 방법이 다름
+    file_extension = model_path.split('.')[-1]
+
+    if file_extension == 'h5':
+        model = tf.keras.models.load_model(model_path)
+    elif file_extension == 'joblib':
+        model = joblib.load(model_path)
+    else:
+        print("잘못된 모델 확장자")
+        return
 
     # Initializing mediapipe pose class.
     # mediapipe pose class를 초기화 한다.
@@ -707,14 +735,15 @@ def play_3D_angle(test_video_path, model_path):
 
             # 계산된 값들을 모델에 입력으로 넣은 후 결과 확인
             # 예측값이 1에 가까울수록 일어서있을 확률이 높고, 0에 가까울수록 앉아있을 확률이 높다.
-            pre = model.predict(now_points)
-            pre_reli = model.predict_proba(now_points)
-            # print(pre[0])
-            # print(find_max_index(pre[0])+1, "번째 클래스")
+            if file_extension == 'h5':
+                pre = model.predict(now_points)
+            elif file_extension == 'joblib':
+                pre = model.predict_proba(now_points)
+
             class_list = ['good_stand', 'good_progress', 'good_sit',
                           'knee_narrow_progress', 'knee_narrow_sit',
                           'knee_wide_progress', 'knee_wide_sit']
-            class_idx = pre[0]
+            class_idx = modules.find_max_index(pre[0])
 
             # 연속 5프레임 똑같은 class가 나오면 제대로 인식했다고 판정
             stateQueue.pop(0)
@@ -742,7 +771,7 @@ def play_3D_angle(test_video_path, model_path):
                 cv2.putText(frame, f"Class: {class_list[class_idx_adj]}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                             (0, 0, 255), 2)
 
-            cv2.putText(frame, f"Reliability: {max(pre_reli[0])}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
+            cv2.putText(frame, f"Reliability: {max(pre[0]):.3f}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                         (0, 255, 0), 2)
 
             # 예측값이 0.8보다 높다면 일어서 있는것으로 판단
@@ -807,6 +836,7 @@ def play_3D_angle(test_video_path, model_path):
                 if k == 32:
                     paused = False
                     break
+        print(pre[0])
         print(i, '번째 프레임')
         print("stateQueue:", stateQueue)
         print("all_same:", all_same)
@@ -823,8 +853,16 @@ def play_3D_point(test_video_path, model_path):
     # Initialize the VideoCapture object to read from  a video stored in the disk.
     video = cv2.VideoCapture(test_video_path)
 
-    # 학습된 모델 불러오기
-    model = joblib.load(model_path)
+    # 모델 확장자가 .h5일 때와 .joblib일 때 모델을 불러오는 방법이 다름
+    file_extension = model_path.split('.')[-1]
+
+    if file_extension == 'h5':
+        model = tf.keras.models.load_model(model_path)
+    elif file_extension == 'joblib':
+        model = joblib.load(model_path)
+    else:
+        print("잘못된 모델 확장자")
+        return
 
     # Initializing mediapipe pose class.
     # mediapipe pose class를 초기화 한다.
@@ -963,14 +1001,15 @@ def play_3D_point(test_video_path, model_path):
 
             # 계산된 값들을 모델에 입력으로 넣은 후 결과 확인
             # 예측값이 1에 가까울수록 일어서있을 확률이 높고, 0에 가까울수록 앉아있을 확률이 높다.
-            pre = model.predict(now_points)
-            pre_reli = model.predict_proba(now_points)
-            # print(pre[0])
-            # print(find_max_index(pre[0])+1, "번째 클래스")
+            if file_extension == 'h5':
+                pre = model.predict(now_points)
+            elif file_extension == 'joblib':
+                pre = model.predict_proba(now_points)
+
             class_list = ['good_stand', 'good_progress', 'good_sit',
                           'knee_narrow_progress', 'knee_narrow_sit',
                           'knee_wide_progress', 'knee_wide_sit']
-            class_idx = pre[0]
+            class_idx = modules.find_max_index(pre[0])
 
             # 연속 5프레임 똑같은 class가 나오면 제대로 인식했다고 판정
             stateQueue.pop(0)
@@ -998,7 +1037,7 @@ def play_3D_point(test_video_path, model_path):
                 cv2.putText(frame, f"Class: {class_list[class_idx_adj]}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                             (0, 0, 255), 2)
 
-            cv2.putText(frame, f"Reliability: {max(pre_reli[0])}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
+            cv2.putText(frame, f"Reliability: {max(pre[0]):.3f}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                         (0, 255, 0), 2)
 
             # 예측값이 0.8보다 높다면 일어서 있는것으로 판단
@@ -1063,6 +1102,7 @@ def play_3D_point(test_video_path, model_path):
                 if k == 32:
                     paused = False
                     break
+        print(pre[0])
         print(i, '번째 프레임')
         print("stateQueue:", stateQueue)
         print("all_same:", all_same)
