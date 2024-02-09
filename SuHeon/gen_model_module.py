@@ -41,13 +41,9 @@ def DNN_2D_angle(train_route, model_save_route, test_base_route, do_eval=False):
     # DNN 모델 생성
     dnn_model = tf.keras.models.Sequential([
         tf.keras.layers.Input(shape=(9,), name='angles'),
-        tf.keras.layers.Dense(32, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(64, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(128, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(256, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(512, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(1024, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(2048, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(4096, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(7, activation='softmax', kernel_initializer=initializer),
     ])
@@ -55,7 +51,7 @@ def DNN_2D_angle(train_route, model_save_route, test_base_route, do_eval=False):
     # 모델 학습 과정 설정
     dnn_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-    # loss가 5번이상 떨어지면 과적합 방지를 위해 학습중지
+    # loss가 10번이상 떨어지면 과적합 방지를 위해 학습중지
     early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10, mode='min')
 
     # DNN 모델 학습
@@ -130,13 +126,9 @@ def DNN_2D_point(train_route, model_save_route, test_base_route, do_eval=False):
     # DNN 모델 생성
     dnn_model = tf.keras.models.Sequential([
         tf.keras.layers.Input(shape=(16,), name='points'),
-        tf.keras.layers.Dense(32, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(64, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(128, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(256, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(512, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(1024, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(2048, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(4096, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(7, activation='softmax', kernel_initializer=initializer),
     ])
@@ -219,13 +211,9 @@ def DNN_3D_angle(train_route, model_save_route, test_base_route, do_eval=False):
     # DNN 모델 생성
     dnn_model = tf.keras.models.Sequential([
         tf.keras.layers.Input(shape=(9,), name='angles'),
-        tf.keras.layers.Dense(32, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(64, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(128, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(256, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(512, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(1024, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(2048, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(4096, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(7, activation='softmax', kernel_initializer=initializer),
     ])
@@ -307,14 +295,10 @@ def DNN_3D_point(train_route, model_save_route, test_base_route, do_eval=False):
 
     # DNN 모델 생성
     dnn_model = tf.keras.models.Sequential([
-        tf.keras.layers.Input(shape=(24,), name='angles'),
-        tf.keras.layers.Dense(32, activation='relu', kernel_initializer=initializer),
+        tf.keras.layers.Input(shape=(24,), name='points'),
         tf.keras.layers.Dense(64, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(128, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(256, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(512, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(1024, activation='relu', kernel_initializer=initializer),
-        tf.keras.layers.Dense(2048, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(4096, activation='relu', kernel_initializer=initializer),
         tf.keras.layers.Dense(7, activation='softmax', kernel_initializer=initializer),
     ])
