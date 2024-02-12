@@ -1,14 +1,10 @@
 # 라이브러리 설정
 import modules
-import math
 import cv2
-import numpy as np
 import pandas as pd
-from time import time
 import mediapipe as mp
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
 
 video_route = './test/video/test3_3.mp4'
 csv_save_route = './test/3D_angle_csv/test3_3.csv'
