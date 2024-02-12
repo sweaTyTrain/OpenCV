@@ -3,7 +3,7 @@ import gen_model_module
 # RandomForest, 2D, angle
 train_route = '../data/train/2D_angle_csv/2D_angle.csv'
 test_base_route = '../data/test/2D_angle_csv/'
-model_save_route = '../models/rf_model_2D_angle.joblib'
+model_save_route = '../models/rf_model_2D_angle_test.joblib'
 
 gen_model_module.RF_2D_angle(train_route, model_save_route, test_base_route, False)
 
