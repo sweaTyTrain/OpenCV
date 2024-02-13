@@ -1,7 +1,10 @@
 
+
 장고 매뉴얼
 
 cmd 창에서 수행
+
+0. pip install django 장고 설치
 
 1.  로컬디스크에 C: 에  venvs 폴더 생성
 
