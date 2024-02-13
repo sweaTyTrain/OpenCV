@@ -1,14 +1,9 @@
 import modules
 
-import math
 import cv2
 import joblib
-import numpy as np
 import pandas as pd
-from time import time
 import mediapipe as mp
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import tensorflow as tf
 
 def play_2D_angle(test_video_path, model_path):

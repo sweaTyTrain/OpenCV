@@ -1944,7 +1944,7 @@ def SVC_2D_angle(train_route, model_save_route, test_base_route, do_eval=False):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # SVC 모델 생성
-    svc_model = SVC(kernel='rbf', random_state=66)
+    svc_model = SVC(kernel='rbf', random_state=66, probability=True)
 
     # 모델 학습
     svc_model.fit(X_train, y_train)
@@ -2009,7 +2009,7 @@ def SVC_2D_point(train_route, model_save_route, test_base_route, do_eval=False):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # SVC 모델 생성
-    svc_model = SVC(kernel='rbf', random_state=66)
+    svc_model = SVC(kernel='rbf', random_state=66, probability=True)
 
     # 모델 학습
     svc_model.fit(X_train, y_train)
@@ -2074,7 +2074,7 @@ def SVC_3D_angle(train_route, model_save_route, test_base_route, do_eval=False):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # SVC 모델 생성
-    svc_model = SVC(kernel='rbf', random_state=66)
+    svc_model = SVC(kernel='rbf', random_state=66, probability=True)
 
     # 모델 학습
     svc_model.fit(X_train, y_train)
@@ -2139,7 +2139,7 @@ def SVC_3D_point(train_route, model_save_route, test_base_route, do_eval=False):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # SVC 모델 생성
-    svc_model = SVC(kernel='rbf', random_state=66)
+    svc_model = SVC(kernel='rbf', random_state=66, probability=True)
 
     # 모델 학습
     svc_model.fit(X_train, y_train)
