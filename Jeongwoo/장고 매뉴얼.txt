@@ -18,7 +18,7 @@ cmd 창에서 수행
 
 6.  cd C:\projects\avatar_project       avatar_project로 이동 
 
-7. myenv\Scripts\activate 입력
+7. myenv\Scripts\activate 입력   mac 환경은 source myenv/bin/activate
 
 8. python manage.py runserver 입력   
 
