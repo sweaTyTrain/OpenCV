@@ -1,17 +1,7 @@
 import math
 import cv2
 import numpy as np
-import pandas as pd
-from time import time
-import mediapipe as mp
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-import tensorflow as tf
-import joblib
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score
 
 # 관절 인식 함수
 def detectPose(image, pose, mp_pose, mp_drawing, display=True):
