@@ -1,0 +1,7 @@
+vs code에서 실행 해당 파일은 js 프론트엔드로만 구현 
+
+Live Server 모듈을 설치 한 다음  index.html 파일 우클릭 후 open with live server 클릭 -> 아바타 모션 캡처 실행 
+
+3d 모델은 Ashtra.vrm 과 masc_vroid.vrm  다른 vrm을 로드해도 잘 돌아감  
+
+index.html 파일에 loader.load 에서 vrm 교체 후 테스트 
