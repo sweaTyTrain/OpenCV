@@ -16,13 +16,13 @@ com.DefaultCompany.Myproject1.launcher-jetified-emoji2-1.2.0-14 C:\Users\HoneyWa
 com.DefaultCompany.Myproject1.launcher-core-1.9.0-15 C:\Users\HoneyWater\.gradle\caches\transforms-3\e771f9ea7a97d7ada690f5df0c2fdcae\transformed\core-1.9.0\res
 com.DefaultCompany.Myproject1.launcher-jetified-emoji2-views-helper-1.2.0-16 C:\Users\HoneyWater\.gradle\caches\transforms-3\f6396027ac92092997a46dd06bf36901\transformed\jetified-emoji2-views-helper-1.2.0\res
 com.DefaultCompany.Myproject1.launcher-fragment-1.3.6-17 C:\Users\HoneyWater\.gradle\caches\transforms-3\fd06d34e18732994e74b7a3e7cb89bc2\transformed\fragment-1.3.6\res
-com.DefaultCompany.Myproject1.launcher-pngs-18 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\generated\res\pngs\release
-com.DefaultCompany.Myproject1.launcher-resValues-19 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\generated\res\resValues\release
-com.DefaultCompany.Myproject1.launcher-rs-20 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\generated\res\rs\release
-com.DefaultCompany.Myproject1.launcher-mergeReleaseResources-21 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\intermediates\incremental\release\mergeReleaseResources\merged.dir
-com.DefaultCompany.Myproject1.launcher-mergeReleaseResources-22 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\intermediates\incremental\release\mergeReleaseResources\stripped.dir
-com.DefaultCompany.Myproject1.launcher-merged_res-23 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\intermediates\merged_res\release
-com.DefaultCompany.Myproject1.launcher-main-24 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\src\main\res
-com.DefaultCompany.Myproject1.launcher-release-25 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\src\release\res
-com.DefaultCompany.Myproject1.launcher-packaged_res-26 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\packaged_res\release
-com.DefaultCompany.Myproject1.launcher-packaged_res-27 C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\xrmanifest.androidlib\build\intermediates\packaged_res\release
+com.DefaultCompany.Myproject1.launcher-pngs-18 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\generated\res\pngs\release
+com.DefaultCompany.Myproject1.launcher-resValues-19 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\generated\res\resValues\release
+com.DefaultCompany.Myproject1.launcher-rs-20 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\generated\res\rs\release
+com.DefaultCompany.Myproject1.launcher-mergeReleaseResources-21 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.DefaultCompany.Myproject1.launcher-mergeReleaseResources-22 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.DefaultCompany.Myproject1.launcher-merged_res-23 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\intermediates\merged_res\release
+com.DefaultCompany.Myproject1.launcher-main-24 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\src\main\res
+com.DefaultCompany.Myproject1.launcher-release-25 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\src\release\res
+com.DefaultCompany.Myproject1.launcher-packaged_res-26 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\packaged_res\release
+com.DefaultCompany.Myproject1.launcher-packaged_res-27 C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\xrmanifest.androidlib\build\intermediates\packaged_res\release

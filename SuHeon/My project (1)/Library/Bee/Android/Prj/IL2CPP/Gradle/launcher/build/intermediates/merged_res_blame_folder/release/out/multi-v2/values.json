@@ -42,23 +42,6 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\HoneyWater\\Desktop\\My project (1)\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\launcher\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "2,2",
-                        "startOffsets": "55,106",
-                        "endColumns": "49,65",
-                        "endOffsets": "102,169"
-                    },
-                    "to": {
-                        "startLines": "668,669",
-                        "startColumns": "4,4",
-                        "startOffsets": "35819,35871",
-                        "endColumns": "51,67",
-                        "endOffsets": "35866,35934"
-                    }
-                },
-                {
                     "source": "C:\\Users\\HoneyWater\\.gradle\\caches\\transforms-3\\e771f9ea7a97d7ada690f5df0c2fdcae\\transformed\\core-1.9.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,89,90,94,95,96,97,103,113,146,167,200",
@@ -165,6 +148,42 @@
                     }
                 },
                 {
+                    "source": "C:\\Users\\HoneyWater\\Desktop\\Practice\\SuHeon\\My project (1)\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\build\\intermediates\\packaged_res\\release\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,12,13,16",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,123,169,226,282,331,377,424,594,686,829",
+                        "endLines": "2,3,4,5,6,7,8,11,12,15,19",
+                        "endColumns": "67,45,56,55,48,45,46,10,91,10,10",
+                        "endOffsets": "118,164,221,277,326,372,419,589,681,824,1053"
+                    },
+                    "to": {
+                        "startLines": "426,617,630,631,632,633,634,1760,1763,2094,2097",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "20239,32462,33169,33226,33282,33331,33377,105503,105673,131048,131191",
+                        "endLines": "426,617,630,631,632,633,634,1762,1763,2096,2100",
+                        "endColumns": "67,45,56,55,48,45,46,10,91,10,10",
+                        "endOffsets": "20302,32503,33221,33277,33326,33372,33419,105668,105760,131186,131415"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\HoneyWater\\Desktop\\Practice\\SuHeon\\My project (1)\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\launcher\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "2,2",
+                        "startOffsets": "55,106",
+                        "endColumns": "49,65",
+                        "endOffsets": "102,169"
+                    },
+                    "to": {
+                        "startLines": "668,669",
+                        "startColumns": "4,4",
+                        "startOffsets": "35819,35871",
+                        "endColumns": "51,67",
+                        "endOffsets": "35866,35934"
+                    }
+                },
+                {
                     "source": "C:\\Users\\HoneyWater\\.gradle\\caches\\transforms-3\\105c953c4a42529896f8ba30f7e6a177\\transformed\\lifecycle-viewmodel-2.5.1\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
@@ -215,25 +234,6 @@
                         "endLines": "2327,2333,2343,4340,4344",
                         "endColumns": "24,24,24,24,24",
                         "endOffsets": "143675,143853,144137,218284,218411"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\HoneyWater\\Desktop\\My project (1)\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\build\\intermediates\\packaged_res\\release\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,12,13,16",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,123,169,226,282,331,377,424,594,686,829",
-                        "endLines": "2,3,4,5,6,7,8,11,12,15,19",
-                        "endColumns": "67,45,56,55,48,45,46,10,91,10,10",
-                        "endOffsets": "118,164,221,277,326,372,419,589,681,824,1053"
-                    },
-                    "to": {
-                        "startLines": "426,617,630,631,632,633,634,1760,1763,2094,2097",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "20239,32462,33169,33226,33282,33331,33377,105503,105673,131048,131191",
-                        "endLines": "426,617,630,631,632,633,634,1762,1763,2096,2100",
-                        "endColumns": "67,45,56,55,48,45,46,10,91,10,10",
-                        "endOffsets": "20302,32503,33221,33277,33326,33372,33419,105668,105760,131186,131415"
                     }
                 }
             ]

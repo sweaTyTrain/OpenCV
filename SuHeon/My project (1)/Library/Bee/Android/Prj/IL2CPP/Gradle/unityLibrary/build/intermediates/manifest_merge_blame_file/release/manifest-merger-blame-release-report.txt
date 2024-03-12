@@ -5,194 +5,210 @@
 5
 6    <uses-sdk
 7        android:minSdkVersion="24"
-7-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml
+7-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml
 8        android:targetSdkVersion="33" />
-8-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml
+8-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml
 9
 10    <uses-permission android:name="android.permission.INTERNET" />
-10-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:3:3-65
-10-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:3:20-62
-11
-12    <uses-feature android:glEsVersion="0x00030000" />
-12-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:4:3-52
-12-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:4:17-49
-13    <uses-feature
-13-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:5:3-88
-14        android:name="android.hardware.touchscreen"
-14-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:5:17-60
-15        android:required="false" />
-15-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:5:61-85
-16    <uses-feature
-16-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:6:3-99
-17        android:name="android.hardware.touchscreen.multitouch"
-17-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:6:17-71
-18        android:required="false" />
-18-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:6:72-96
-19    <uses-feature
-19-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:7:3-108
-20        android:name="android.hardware.touchscreen.multitouch.distinct"
-20-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:7:17-80
-21        android:required="false" />
-21-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:7:81-105
-22
-23    <uses-permission android:name="android.permission.CAMERA" />
-23-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:34:3-63
-23-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:34:20-60
-24
-25    <uses-feature
-25-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:35:3-85
-26        android:name="android.hardware.camera.ar"
-26-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:35:17-58
-27        android:required="true" />
-27-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:35:59-82
-28    <uses-feature
-28-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:36:3-83
-29        android:name="com.google.ar.core.depth"
-29-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:36:17-56
-30        android:required="true" />
-30-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:36:57-80
-31
-32    <application android:extractNativeLibs="true" >
-32-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:8:3-33:17
-32-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:8:16-48
-33        <meta-data
-33-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:9:5-69
-34            android:name="unity.splash-mode"
-34-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:9:16-48
-35            android:value="0" />
-35-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:9:49-66
-36        <meta-data
-36-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:10:5-74
-37            android:name="unity.splash-enable"
-37-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:10:16-50
-38            android:value="True" />
-38-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:10:51-71
-39        <meta-data
-39-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:11:5-78
-40            android:name="unity.launch-fullscreen"
-40-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:11:16-54
-41            android:value="True" />
-41-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:11:55-75
-42        <meta-data
-42-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:12:5-81
-43            android:name="notch.config"
-43-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:12:16-43
-44            android:value="portrait|landscape" />
-44-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:12:44-78
-45        <meta-data
-45-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:13:5-84
-46            android:name="unity.auto-report-fully-drawn"
-46-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:13:16-60
-47            android:value="true" />
-47-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:13:61-81
-48        <meta-data
-48-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:14:5-78
-49            android:name="unity.strip-engine-code"
-49-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:14:16-54
-50            android:value="true" />
-50-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:14:55-75
-51
-52        <activity
-52-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:5-21:16
-53            android:name="com.unity3d.player.UnityPlayerActivity"
-53-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:313-366
-54            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
-54-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:15-196
-55            android:enabled="false"
-55-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:197-220
-56            android:exported="true"
-56-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:221-244
-57            android:hardwareAccelerated="false"
-57-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:245-280
-58            android:launchMode="singleTask"
-58-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:281-312
-59            android:resizeableActivity="false"
-59-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:367-401
-60            android:screenOrientation="fullUser"
-60-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:402-438
-61            android:theme="@style/UnityThemeSelector" >
-61-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:439-480
-62            <intent-filter>
-62-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:16:7-19:23
-63                <category android:name="android.intent.category.LAUNCHER" />
-63-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:17:9-69
-63-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:17:19-66
-64
-65                <action android:name="android.intent.action.MAIN" />
-65-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:18:9-61
-65-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:18:17-58
-66            </intent-filter>
-67
-68            <meta-data
-68-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:20:7-82
-69                android:name="unityplayer.UnityActivity"
-69-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:20:18-58
-70                android:value="true" />
-70-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:20:59-79
-71        </activity>
-72        <activity
-72-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:5-30:16
-73            android:name="com.unity3d.player.UnityPlayerGameActivity"
-73-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:312-369
-74            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
-74-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:15-196
-75            android:enabled="true"
-75-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:197-219
-76            android:exported="true"
-76-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:220-243
-77            android:hardwareAccelerated="false"
-77-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:244-279
-78            android:launchMode="singleTask"
-78-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:280-311
-79            android:resizeableActivity="false"
-79-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:370-404
-80            android:screenOrientation="fullUser"
-80-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:405-441
-81            android:theme="@style/BaseUnityGameActivityTheme" >
-81-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:442-491
-82            <intent-filter>
-82-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:16:7-19:23
-83                <category android:name="android.intent.category.LAUNCHER" />
-83-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:17:9-69
-83-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:17:19-66
-84
-85                <action android:name="android.intent.action.MAIN" />
-85-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:18:9-61
-85-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:18:17-58
-86            </intent-filter>
-87
-88            <meta-data
-88-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:20:7-82
-89                android:name="unityplayer.UnityActivity"
-89-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:20:18-58
-90                android:value="true" />
-90-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:20:59-79
-91            <meta-data
-91-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:28:7-77
-92                android:name="android.app.lib_name"
-92-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:28:18-53
-93                android:value="game" />
-93-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:28:54-74
-94            <meta-data
-94-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:29:7-70
-95                android:name="notch_support"
-95-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:29:18-46
-96                android:value="true" />
-96-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:29:47-67
-97        </activity>
-98
-99        <meta-data
-99-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:31:5-88
-100            android:name="unityplayer.SkipPermissionsDialog"
-100-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:31:16-64
-101            android:value="true" />
-101-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:31:65-85
-102        <meta-data
-102-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:32:5-77
-103            android:name="com.google.ar.core"
-103-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:32:16-49
-104            android:value="required" />
-104-->C:\Users\HoneyWater\Desktop\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:32:50-74
-105    </application>
-106
-107</manifest>
+10-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:3:3-65
+10-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:3:20-62
+11    <uses-permission android:name="android.permission.CAMERA" />
+11-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:4:3-63
+11-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:4:20-60
+12
+13    <uses-feature android:glEsVersion="0x00030000" />
+13-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:5:3-52
+13-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:5:17-49
+14    <uses-feature
+14-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:6:3-83
+15        android:name="android.hardware.camera"
+15-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:6:17-55
+16        android:required="false" />
+16-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:6:56-80
+17    <uses-feature
+17-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:7:3-93
+18        android:name="android.hardware.camera.autofocus"
+18-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:7:17-65
+19        android:required="false" />
+19-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:7:66-90
+20    <uses-feature
+20-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:8:3-89
+21        android:name="android.hardware.camera.front"
+21-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:8:17-61
+22        android:required="false" />
+22-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:8:62-86
+23    <uses-feature
+23-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:9:3-88
+24        android:name="android.hardware.touchscreen"
+24-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:9:17-60
+25        android:required="false" />
+25-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:9:61-85
+26    <uses-feature
+26-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:10:3-99
+27        android:name="android.hardware.touchscreen.multitouch"
+27-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:10:17-71
+28        android:required="false" />
+28-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:10:72-96
+29    <uses-feature
+29-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:11:3-108
+30        android:name="android.hardware.touchscreen.multitouch.distinct"
+30-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:11:17-80
+31        android:required="false" />
+31-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:11:81-105
+32    <uses-feature
+32-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:38:3-85
+33        android:name="android.hardware.camera.ar"
+33-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:38:17-58
+34        android:required="true" />
+34-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:38:59-82
+35    <uses-feature
+35-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:39:3-83
+36        android:name="com.google.ar.core.depth"
+36-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:39:17-56
+37        android:required="true" />
+37-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:39:57-80
+38
+39    <application android:extractNativeLibs="true" >
+39-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:12:3-37:17
+39-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:12:16-48
+40        <meta-data
+40-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:13:5-69
+41            android:name="unity.splash-mode"
+41-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:13:16-48
+42            android:value="0" />
+42-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:13:49-66
+43        <meta-data
+43-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:14:5-74
+44            android:name="unity.splash-enable"
+44-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:14:16-50
+45            android:value="True" />
+45-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:14:51-71
+46        <meta-data
+46-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:5-78
+47            android:name="unity.launch-fullscreen"
+47-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:16-54
+48            android:value="True" />
+48-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:55-75
+49        <meta-data
+49-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:16:5-81
+50            android:name="notch.config"
+50-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:16:16-43
+51            android:value="portrait|landscape" />
+51-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:16:44-78
+52        <meta-data
+52-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:17:5-84
+53            android:name="unity.auto-report-fully-drawn"
+53-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:17:16-60
+54            android:value="true" />
+54-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:17:61-81
+55        <meta-data
+55-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:18:5-78
+56            android:name="unity.strip-engine-code"
+56-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:18:16-54
+57            android:value="true" />
+57-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:18:55-75
+58
+59        <activity
+59-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:5-25:16
+60            android:name="com.unity3d.player.UnityPlayerActivity"
+60-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:313-366
+61            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+61-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:15-196
+62            android:enabled="false"
+62-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:197-220
+63            android:exported="true"
+63-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:221-244
+64            android:hardwareAccelerated="false"
+64-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:245-280
+65            android:launchMode="singleTask"
+65-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:281-312
+66            android:resizeableActivity="false"
+66-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:367-401
+67            android:screenOrientation="landscape"
+67-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:402-439
+68            android:theme="@style/UnityThemeSelector" >
+68-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:440-481
+69            <intent-filter>
+69-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:20:7-23:23
+70                <category android:name="android.intent.category.LAUNCHER" />
+70-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:21:9-69
+70-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:21:19-66
+71
+72                <action android:name="android.intent.action.MAIN" />
+72-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:9-61
+72-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:17-58
+73            </intent-filter>
+74
+75            <meta-data
+75-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:24:7-82
+76                android:name="unityplayer.UnityActivity"
+76-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:24:18-58
+77                android:value="true" />
+77-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:24:59-79
+78        </activity>
+79        <activity
+79-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:5-34:16
+80            android:name="com.unity3d.player.UnityPlayerGameActivity"
+80-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:312-369
+81            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+81-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:15-196
+82            android:enabled="true"
+82-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:197-219
+83            android:exported="true"
+83-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:220-243
+84            android:hardwareAccelerated="false"
+84-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:244-279
+85            android:launchMode="singleTask"
+85-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:280-311
+86            android:resizeableActivity="false"
+86-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:370-404
+87            android:screenOrientation="landscape"
+87-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:405-442
+88            android:theme="@style/BaseUnityGameActivityTheme" >
+88-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:26:443-492
+89            <intent-filter>
+89-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:20:7-23:23
+90                <category android:name="android.intent.category.LAUNCHER" />
+90-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:21:9-69
+90-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:21:19-66
+91
+92                <action android:name="android.intent.action.MAIN" />
+92-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:9-61
+92-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:17-58
+93            </intent-filter>
+94
+95            <meta-data
+95-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:24:7-82
+96                android:name="unityplayer.UnityActivity"
+96-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:24:18-58
+97                android:value="true" />
+97-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:24:59-79
+98            <meta-data
+98-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:32:7-77
+99                android:name="android.app.lib_name"
+99-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:32:18-53
+100                android:value="game" />
+100-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:32:54-74
+101            <meta-data
+101-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:33:7-70
+102                android:name="notch_support"
+102-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:33:18-46
+103                android:value="true" />
+103-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:33:47-67
+104        </activity>
+105
+106        <meta-data
+106-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:35:5-88
+107            android:name="unityplayer.SkipPermissionsDialog"
+107-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:35:16-64
+108            android:value="true" />
+108-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:35:65-85
+109        <meta-data
+109-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:36:5-77
+110            android:name="com.google.ar.core"
+110-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:36:16-49
+111            android:value="required" />
+111-->C:\Users\HoneyWater\Desktop\Practice\SuHeon\My project (1)\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\AndroidManifest.xml:36:50-74
+112    </application>
+113
+114</manifest>

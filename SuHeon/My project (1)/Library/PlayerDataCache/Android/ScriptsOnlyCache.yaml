@@ -4,7 +4,7 @@ ScriptsOnlyBuild:
     - ARPlaceOnPlane
     - BtnManager
     - HandTracking
-    - UDPReceive
+    - SorketClient
     Unity.InputSystem.dll:
     - UnityEngine.InputSystem.InputSettings
     - UnityEngine.InputSystem.InputSystemObject
@@ -70,6 +70,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.RawImage
   serializedClasses:
     Unity.InputSystem:
     - UnityEngine.InputSystem.InputAction
@@ -110,6 +111,12 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: BtnManager
     methodName: OnClickQuit
+  - assembly: Assembly-CSharp
+    fullTypeName: SorketClient
+    methodName: CameraOn
+  - assembly: Assembly-CSharp
+    fullTypeName: SorketClient
+    methodName: CameraOff
   sceneClasses:
     Assets/Scenes/SampleScene.unity:
     - Class: 1
@@ -235,6 +242,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 32890}
     - Class: 114
       Script: {instanceID: 33536}
+    - Class: 114
+      Script: {instanceID: 33726}
     - Class: 114
       Script: {instanceID: 33926}
     - Class: 114
@@ -452,7 +461,7 @@ ScriptsOnlyBuild:
     className: PanelRaycaster
   - hash:
       serializedVersion: 2
-      Hash: 927160bd38cc5712ae5004920eb29c72
+      Hash: f65b39e462ec920b3af5f157845c1d4f
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: HandTracking
@@ -1370,10 +1379,10 @@ ScriptsOnlyBuild:
     className: RemoteInputPlayerConnection
   - hash:
       serializedVersion: 2
-      Hash: 277d76fa64cc67d4a47b3017a598ad4f
+      Hash: 7f6a26369046ab1254321a1a43157b25
     assemblyName: Assembly-CSharp
     namespaceName: 
-    className: UDPReceive
+    className: SorketClient
   - hash:
       serializedVersion: 2
       Hash: 37bf71057ea34aaf9f08953f6af3fa79

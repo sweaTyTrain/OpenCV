@@ -3,5 +3,9 @@
 		<type fullname="BtnManager">
 			<method name="OnClickQuit"/>
 		</type>
+		<type fullname="SorketClient">
+			<method name="CameraOff"/>
+			<method name="CameraOn"/>
+		</type>
 	</assembly>
 </linker>

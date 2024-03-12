@@ -4214,9 +4214,17 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_Texture2D_SetPixelImpl_Injected();
 		Register_UnityEngine_Texture2D_SetPixelImpl_Injected();
 
+		//System.Void UnityEngine.Texture2D::SetPixelsImpl_Injected(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,UnityEngine.Bindings.ManagedSpanWrapper&,System.Int32,System.Int32)
+		void Register_UnityEngine_Texture2D_SetPixelsImpl_Injected();
+		Register_UnityEngine_Texture2D_SetPixelsImpl_Injected();
+
 		//System.Void UnityEngine.Texture2D::UpdateExternalTexture_Injected(System.IntPtr,System.IntPtr)
 		void Register_UnityEngine_Texture2D_UpdateExternalTexture_Injected();
 		Register_UnityEngine_Texture2D_UpdateExternalTexture_Injected();
+
+		//UnityEngine.Color[] UnityEngine.Texture2D::GetPixels_Injected(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+		void Register_UnityEngine_Texture2D_GetPixels_Injected();
+		Register_UnityEngine_Texture2D_GetPixels_Injected();
 
 		//UnityEngine.TextureFormat UnityEngine.Texture2D::get_format_Injected(System.IntPtr)
 		void Register_UnityEngine_Texture2D_get_format_Injected();
@@ -4695,6 +4703,38 @@ void RegisterAllStrippedInternalCalls()
 		Register_UnityEngine_UnityLogWriter_WriteStringToUnityLogImpl_Injected();
 
 	//End Registrations for type : UnityEngine.UnityLogWriter
+
+	//Start Registrations for type : UnityEngine.WebCamTexture
+
+		//System.Boolean UnityEngine.WebCamTexture::get_isPlaying_Injected(System.IntPtr)
+		void Register_UnityEngine_WebCamTexture_get_isPlaying_Injected();
+		Register_UnityEngine_WebCamTexture_get_isPlaying_Injected();
+
+		//System.Void UnityEngine.WebCamTexture::Internal_CreateWebCamTexture_Injected(UnityEngine.WebCamTexture,UnityEngine.Bindings.ManagedSpanWrapper&,System.Int32,System.Int32,System.Int32)
+		void Register_UnityEngine_WebCamTexture_Internal_CreateWebCamTexture_Injected();
+		Register_UnityEngine_WebCamTexture_Internal_CreateWebCamTexture_Injected();
+
+		//System.Void UnityEngine.WebCamTexture::Play_Injected(System.IntPtr)
+		void Register_UnityEngine_WebCamTexture_Play_Injected();
+		Register_UnityEngine_WebCamTexture_Play_Injected();
+
+		//System.Void UnityEngine.WebCamTexture::Stop_Injected(System.IntPtr)
+		void Register_UnityEngine_WebCamTexture_Stop_Injected();
+		Register_UnityEngine_WebCamTexture_Stop_Injected();
+
+		//System.Void UnityEngine.WebCamTexture::set_requestedFPS_Injected(System.IntPtr,System.Single)
+		void Register_UnityEngine_WebCamTexture_set_requestedFPS_Injected();
+		Register_UnityEngine_WebCamTexture_set_requestedFPS_Injected();
+
+		//UnityEngine.Color[] UnityEngine.WebCamTexture::GetPixels_Injected(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)
+		void Register_UnityEngine_WebCamTexture_GetPixels_Injected();
+		Register_UnityEngine_WebCamTexture_GetPixels_Injected();
+
+		//UnityEngine.WebCamDevice[] UnityEngine.WebCamTexture::get_devices()
+		void Register_UnityEngine_WebCamTexture_get_devices();
+		Register_UnityEngine_WebCamTexture_get_devices();
+
+	//End Registrations for type : UnityEngine.WebCamTexture
 
 	//Start Registrations for type : UnityEngine.XR.InputDevices
 
