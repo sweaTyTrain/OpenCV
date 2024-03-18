@@ -46,7 +46,7 @@ class SocketServer():
                 #print(np_data)
                 print(len(np_data))
                 img = cv2.imdecode(np_data, cv2.IMREAD_COLOR)
-                #wwwwwwwwwprint(img)
+                #print(img)
                 # 이미지를 표시
                 cv2.imshow('Received Image', img)
                 cv2.waitKey(1)

@@ -283,10 +283,10 @@ def play_2D_angle(test_video_path, model_path):
                 if k == 32:
                     paused = False
                     break
-        print(pre[0])
+        #print(pre[0])
         print(i, '번째 프레임')
         print("stateQueue:", stateQueue)
-        print("all_same:", all_same)
+        #print("all_same:", all_same)
         print("squatState: ", squatState)
         print('정확도:', squatAccuracy)
         print(squatCnt, '개')
