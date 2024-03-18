@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.abs {
+  position: absolute;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  &:hover {
+    color: lightblue;
+  }
+}
+
+body {
+  bottom: 0;
+  font-family: 'Titillium Web', sans-serif;
+  color: white;
+  left: 0;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform-origin: 0px 0px;
+  overflow: hidden;
+}
+
+
+/* 웹캠 화면 */
+.webcam-container {
+  position: fixed; /* 혹은 absolute */
+  top: 0px;
+  left: 0px;
+  z-index: 1000; /* 다른 요소 위에 표시되도록 높은 값으로 설정 */
+  width: 160px; /* 원하는 크기로 조절 */
+  transform: scale(2); /* 원하는 크기 비율로 조절, 예시는 50%로 작게 만듦 */
+  transform-origin: top left; /* 변환 기준점을 좌상단으로 설정 */
+  }
+
+/* 로고 및 미디어 파이프 url */
+
+.container {
+  display: none;
+  position: absolute;
+  background-color: #596e73;
+  width: 100%;
+  max-height: 100%;
+}
+
+
+
+.input_video {
+  display: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  &.selfie {
+    transform: scale(-1, 1);
+  }
+}
+
+.output_canvas {
+  width: 100%;
+  display: block;
+  position: relative;
+  left: 0;
+  top: 0;
+}
+
+
+
+/* 안 쓰는 css */
+
+.input_image {
+  position: absolute;
+}
+
+/* 안 쓰는 css */
+
+.canvas-container {
+  display:flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items:center;
+}
+
+
+
+
+.logo {
+  bottom: 10px;
+  right: 20px;
+
+  .title {
+    color: white;
+    font-size: 28px;
+  }
+
+  .subtitle {
+    position: relative;
+    color: white;
+    font-size: 10px;
+    left: -30px;
+    top: 20px;
+  }
+}
+
+.control-panel {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  display: none;
+}
+
+.loading {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  backface-visibility: hidden;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 1s;
+
+  .message {
+    font-size: x-large;
+  }
+
+  .spinner {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+    border: 32px solid #bebebe;
+    border-top: 32px solid #3498db;
+    border-radius: 50%;
+  }
+}
+
+.loaded .loading {
+  opacity: 0;
+}
+
+.shoutout {
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  text-align: center;
+  font-size: 24px;
+  position: absolute;
+}
+
+    .square-box {
+      width: 33%;
+      height: 0;
+      padding-top: 33%;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      display: none;
+    }
+
+
+
+    .landmark-grid-container {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top:0;
+      left:0;
+      background-color: #99999999;
+
+    }
+
+
+
+
+
+
+  </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1632432234/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.6.1629159505/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils_3d@0.3.1635987963/control_utils_3d.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1620248257/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1635988162/pose.js" crossorigin="anonymous"></script>
+
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+
+
+<!--aframe vr 가상환경 -->
+        <a-scene>
+
+        <a-entity environment="preset: forest; groundColor: #445; grid: cross"></a-entity>
+
+      <!-- Sky -->
+      <a-sky color="#87CEEB"></a-sky>
+
+
+
+
+      <!-- Sun -->
+      <a-light type="directional" position="-5 5 5" target="#ground" intensity="1.5" castShadow="true"></a-light>
+      <!-- Sky Sun (Visible Sun in the Sky) -->
+      <a-sphere id="poseSphere" position="-5 15 5" radius="1" color="#FFD700" material="emissive: #FFD700" move-with-camera></a-sphere>
+
+
+
+            <a-entity line="start: 0 0 0; end: 0 0 0; color: white; "></a-entity>
+
+            <a-entity id="skeleton" position="2 0 -3"></a-entity>
+
+
+
+
+        <!-- VR 헤드셋을 통해 환경을 탐험하는 사용자를 위한 카메라 구성 요소 -->
+        <a-camera  position="0 2 0" look-controls wasd-controls>
+            <a-cursor></a-cursor>
+
+            <a-entity id="webcamContainer" position="0 2 -5">
+                <a-video src="#webcamVideo" width="4" height="2.25" rotation="0 180 0"></a-video>
+
+            </a-entity>
+        </a-camera>
+
+
+
+
+
+
+
+    </a-scene>
+
+
+
+
+    <div class="webcam-container">
+
+    <video id="webcamVideo" class="input_video"></video>
+         <canvas class="output_canvas" ></canvas>
+    </div>
+
+
+
+
+
+  <div class="container">
+
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="message">
+        Loading
+      </div>
+    </div>
+
+    <a class="abs logo" href="http://www.mediapipe.dev" target="_blank">
+      <div style="display: flex;align-items: center;bottom: 0;right: 10px;">
+
+        <span class="title">MediaPipe</span>
+      </div>
+    </a>
+    <div class="shoutout">
+      <div>
+        <a href="https://solutions.mediapipe.dev/pose">
+          Click here for more info
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="control-panel">
+  </div>
+  <div class='square-box'>
+
+
+    <div class="landmark-grid-container">
+    </div>
+  </div>
+
+
+
+
+  <script  type="module">
+import DeviceDetector from "https://cdn.skypack.dev/device-detector-js@2.2.10";
+
+
+
+
+
+
+// Usage: testSupport({client?: string, os?: string}[])
+// Client and os are regular expressions.
+// See: https://cdn.jsdelivr.net/npm/device-detector-js@2.2.10/README.md for
+// legal values for client and os
+testSupport([
+    { client: 'Chrome' },
+]);
+function testSupport(supportedDevices) {
+    const deviceDetector = new DeviceDetector();
+    const detectedDevice = deviceDetector.parse(navigator.userAgent);
+    let isSupported = false;
+    for (const device of supportedDevices) {
+        if (device.client !== undefined) {
+            const re = new RegExp(`^${device.client}$`);
+            if (!re.test(detectedDevice.client.name)) {
+                continue;
+            }
+        }
+        if (device.os !== undefined) {
+            const re = new RegExp(`^${device.os}$`);
+            if (!re.test(detectedDevice.os.name)) {
+                continue;
+            }
+        }
+        isSupported = true;
+        break;
+    }
+    if (!isSupported) {
+        alert(`This demo, running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
+            `is not well supported at this time, expect some flakiness while we improve our code.`);
+    }
+}
+const controls = window;
+const LandmarkGrid = window.LandmarkGrid;
+const drawingUtils = window;
+const mpPose = window;
+const options = {
+    locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@${mpPose.VERSION}/${file}`;
+    }
+};
+// Our input frames will come from here.
+const videoElement = document.getElementsByClassName('input_video')[0];
+const canvasElement = document.getElementsByClassName('output_canvas')[0];
+const controlsElement = document.getElementsByClassName('control-panel')[0];
+const canvasCtx = canvasElement.getContext('2d');
+// We'll add this to our control panel later, but we'll save it here so we can
+// call tick() each time the graph runs.
+const fpsControl = new controls.FPS();
+// Optimization: Turn off animated spinner after its hiding animation is done.
+const spinner = document.querySelector('.loading');
+spinner.ontransitionend = () => {
+    spinner.style.display = 'none';
+};
+const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
+const grid = new LandmarkGrid(landmarkContainer, {
+    connectionColor: 0xCCCCCC,
+    definedColors: [{ name: 'LEFT', value: 0xffa500 }, { name: 'RIGHT', value: 0x00ffff }],
+    range: 2,
+    fitToGrid: true,
+    labelSuffix: 'm',
+    landmarkSize: 2,
+    numCellsPerAxis: 4,
+    showHidden: false,
+    centered: true,
+});
+let activeEffect = 'mask';
+
+
+
+function onResults(results) {
+
+
+
+
+
+
+    let skeletonEntity = document.getElementById('skeleton');
+    if (!skeletonEntity) {
+        skeletonEntity = document.createElement('a-entity');
+        skeletonEntity.setAttribute('id', 'skeleton');
+        document.querySelector('a-scene').appendChild(skeletonEntity);
+    }
+
+    // 미디어 파이프에서 얻은 점 데이터를 A-Frame 엔티티의 위치로 설정합니다.
+    if (results.poseWorldLandmarks) {
+        const poseLandmarks = results.poseWorldLandmarks;
+
+        // Clear existing child entities.
+        while (skeletonEntity.firstChild) {
+            skeletonEntity.removeChild(skeletonEntity.firstChild);
+        }
+
+        // Specify the indices of the points you want to render
+        const renderIndices = [0, 11, 12, 13, 14, 15, 16, 23, 24, 25, 26, 27, 28];
+
+          const connections = [
+        [16, 14],
+        [14, 12],
+        [12, 11],
+        [11, 13],
+        [13, 15],
+        [12, 24],
+        [11, 23],
+        [24, 23],
+        [24, 26],
+        [23, 25],
+        [26, 28],
+        [25, 27],
+    ];
+
+    // Create new child entities based on the specified connections.
+    for (const [startIndex, endIndex] of connections) {
+        const startLandmarkEntity = document.createElement('a-entity');
+        startLandmarkEntity.setAttribute('geometry', 'primitive: sphere; radius: 0.02');
+        startLandmarkEntity.setAttribute('material', 'color: red');
+        const startX = poseLandmarks[startIndex].x * 1;
+        const startY = poseLandmarks[startIndex].y * -1;
+        const startZ = poseLandmarks[startIndex].z * 1;
+        startLandmarkEntity.setAttribute('position', `${startX} ${startY} ${startZ}`);
+        skeletonEntity.appendChild(startLandmarkEntity);
+
+        const endLandmarkEntity = document.createElement('a-entity');
+        endLandmarkEntity.setAttribute('geometry', 'primitive: sphere; radius: 0.02');
+        endLandmarkEntity.setAttribute('material', 'color: red');
+        const endX = poseLandmarks[endIndex].x * 1;
+        const endY = poseLandmarks[endIndex].y * -1;
+        const endZ = poseLandmarks[endIndex].z * 1;
+        endLandmarkEntity.setAttribute('position', `${endX} ${endY} ${endZ}`);
+        skeletonEntity.appendChild(endLandmarkEntity);
+
+        const lineEntity = document.createElement('a-entity');
+        lineEntity.setAttribute('line', `start: ${startX} ${startY} ${startZ}; end: ${endX} ${endY} ${endZ}; color: white; `);
+
+        skeletonEntity.appendChild(lineEntity);
+    }
+
+
+
+
+
+
+
+        // Create new child entities based on the selected pose landmarks.
+        renderIndices.forEach((index) => {
+            const landmarkEntity = document.createElement('a-entity');
+            landmarkEntity.setAttribute('geometry', 'primitive: sphere; radius: 0.05');
+            landmarkEntity.setAttribute('material', 'color: red');
+
+            // 미디어 파이프에서 A-Frame으로 좌표 변환
+            const x = poseLandmarks[index].x * 1;
+            const y = poseLandmarks[index].y * -1;
+            const z = poseLandmarks[index].z * 1;
+
+
+            landmarkEntity.setAttribute('position', `${x} ${y} ${z}`);
+            skeletonEntity.appendChild(landmarkEntity);
+        });
+    }
+    else {
+        // Clear child entities if no pose landmarks are available.
+        while (skeletonEntity.firstChild) {
+            skeletonEntity.removeChild(skeletonEntity.firstChild);
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+    // Hide the spinner.
+    document.body.classList.add('loaded');
+    // Update the frame rate.
+    fpsControl.tick();
+    // Draw the overlays.
+    canvasCtx.save();
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    if (results.segmentationMask) {
+        canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+        // Only overwrite existing pixels.
+        if (activeEffect === 'mask' || activeEffect === 'both') {
+            canvasCtx.globalCompositeOperation = 'source-in';
+            // This can be a color or a texture or whatever...
+            canvasCtx.fillStyle = '#00FF007F';
+            canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+        }
+        else {
+            canvasCtx.globalCompositeOperation = 'source-out';
+            canvasCtx.fillStyle = '#0000FF7F';
+            canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+        }
+        // Only overwrite missing pixels.
+        canvasCtx.globalCompositeOperation = 'destination-atop';
+        canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+        canvasCtx.globalCompositeOperation = 'source-over';
+    }
+    else {
+        canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+    }
+    if (results.poseLandmarks) {
+        drawingUtils.drawConnectors(canvasCtx, results.poseLandmarks, mpPose.POSE_CONNECTIONS, { visibilityMin: 0.65, color: 'white' });
+        drawingUtils.drawLandmarks(canvasCtx, Object.values(mpPose.POSE_LANDMARKS_LEFT)
+            .map(index => results.poseLandmarks[index]), { visibilityMin: 0.65, color: 'white', fillColor: 'rgb(255,138,0)' });
+        drawingUtils.drawLandmarks(canvasCtx, Object.values(mpPose.POSE_LANDMARKS_RIGHT)
+            .map(index => results.poseLandmarks[index]), { visibilityMin: 0.65, color: 'white', fillColor: 'rgb(0,217,231)' });
+        drawingUtils.drawLandmarks(canvasCtx, Object.values(mpPose.POSE_LANDMARKS_NEUTRAL)
+            .map(index => results.poseLandmarks[index]), { visibilityMin: 0.65, color: 'white', fillColor: 'white' });
+    }
+    canvasCtx.restore();
+    if (results.poseWorldLandmarks) {
+        grid.updateLandmarks(results.poseWorldLandmarks, mpPose.POSE_CONNECTIONS, [
+            { list: Object.values(mpPose.POSE_LANDMARKS_LEFT), color: 'LEFT' },
+            { list: Object.values(mpPose.POSE_LANDMARKS_RIGHT), color: 'RIGHT' },
+        ]);
+    }
+    else {
+        grid.updateLandmarks([]);
+    }
+
+
+
+
+}
+const pose = new mpPose.Pose(options);
+
+const webcamVideo = document.getElementById('webcamVideo');
+const webcamContainer = document.getElementById('webcamContainer');
+
+
+
+pose.onResults(onResults);
+// Present a control panel through which the user can manipulate the solution
+// options.
+new controls
+    .ControlPanel(controlsElement, {
+    selfieMode: true,
+    modelComplexity: 1,
+    smoothLandmarks: true,
+    enableSegmentation: false,
+    smoothSegmentation: true,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5,
+    effect: 'background',
+})
+    .add([
+    new controls.StaticText({ title: 'MediaPipe Pose' }),
+    fpsControl,
+    new controls.Toggle({ title: 'Selfie Mode', field: 'selfieMode' }),
+
+    new controls.Slider({
+        title: 'Model Complexity',
+        field: 'modelComplexity',
+        discrete: ['Lite', 'Full', 'Heavy'],
+    }),
+    new controls.Toggle({ title: 'Smooth Landmarks', field: 'smoothLandmarks' }),
+    new controls.Toggle({ title: 'Enable Segmentation', field: 'enableSegmentation' }),
+    new controls.Toggle({ title: 'Smooth Segmentation', field: 'smoothSegmentation' }),
+    new controls.Slider({
+        title: 'Min Detection Confidence',
+        field: 'minDetectionConfidence',
+        range: [0, 1],
+        step: 0.01
+    }),
+    new controls.Slider({
+        title: 'Min Tracking Confidence',
+        field: 'minTrackingConfidence',
+        range: [0, 1],
+        step: 0.01
+    }),
+    new controls.Slider({
+        title: 'Effect',
+        field: 'effect',
+        discrete: { 'background': 'Background', 'mask': 'Foreground' },
+    }),
+])
+    .on(x => {
+    const options = x;
+    videoElement.classList.toggle('selfie', options.selfieMode);
+    activeEffect = x['effect'];
+    pose.setOptions(options);
+});
+
+
+
+
+
+
+
+
+
+
+        const camera = new Camera(videoElement, {
+            onFrame: async () => {
+                await pose.send({image: videoElement});
+
+            },
+            width: 1280,
+            height: 720
+        });
+        camera.start();
+  </script>
+</body>
+
+</html>
