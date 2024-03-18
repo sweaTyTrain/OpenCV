@@ -1544,7 +1544,8 @@ def GNB_3D_angle(train_route, model_save_route, test_base_route, do_eval=False):
                     'knee_angle_R', 'knee_angle_L',
                     'ankle_knee_knee_R', 'ankle_knee_knee_L',
                     'hip_hip_knee_R', 'hip_hip_knee_L',
-                    'knee_knee_dis']]
+                    #'knee_knee_dis'
+                    ]]
     y = data_train['label']
 
     # 데이터를 학습용과 테스트용으로 분리
@@ -1583,7 +1584,8 @@ def GNB_3D_angle(train_route, model_save_route, test_base_route, do_eval=False):
                                   'knee_angle_R', 'knee_angle_L',
                                   'ankle_knee_knee_R', 'ankle_knee_knee_L',
                                   'hip_hip_knee_R', 'hip_hip_knee_L',
-                                  'knee_knee_dis']]
+                                  #'knee_knee_dis'
+                                  ]]
                 y_new = new_data['label']
 
                 # 새로운 데이터에 대한 예측
