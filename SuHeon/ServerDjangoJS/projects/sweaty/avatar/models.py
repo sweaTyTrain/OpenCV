@@ -4,14 +4,19 @@ import math
 import cv2
 import numpy as np
 import tensorflow as tf
+import joblib
 import os
 
 
 
 class TestModel(models.Model):
+    label_0 = models.CharField(max_length=100)
     label_1 = models.CharField(max_length=100)
     label_2 = models.CharField(max_length=100)
     label_3 = models.CharField(max_length=100)
+    label_4 = models.CharField(max_length=100)
+    label_5 = models.CharField(max_length=100)
+    label_6 = models.CharField(max_length=100)
 
 
 
@@ -20,22 +25,26 @@ class TestModel(models.Model):
 # 현재 스크립트의 디렉토리 경로
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # 모델 파일의 경로
-MODEL_PATH = os.path.join(BASE_DIR, 'AImodel', 'modeltest.h5')
+MODEL_PATH = os.path.join(BASE_DIR, 'AImodel', 'gnb_model_3D_angle_noDis.joblib')
 
-# 모델 로드
-model = tf.keras.models.load_model(MODEL_PATH)
+# 모델 확장자가 .h5일 때와 .joblib일 때 모델을 불러오는 방법이 다름
+file_extension = MODEL_PATH.split('.')[-1]
 
+if file_extension == 'h5':
+    model = tf.keras.models.load_model(MODEL_PATH)
+elif file_extension == 'joblib':
+    model = joblib.load(MODEL_PATH)
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 
-# 각도 계산 함수(객체)
-def calculateAngle(landmark1, landmark2, landmark3):
+# 3D 각도 계산 함수(객체)
+def calculateAngle3D(landmark1, landmark2, landmark3):
     # landmark1에서 landmark2로 향하는 3차원 벡터 계산
-    vector1 = np.array([landmark1.x, landmark1.y, landmark1.z]) - np.array([landmark2.x, landmark2.y, landmark2.z])
+    vector1 = np.array(landmark1) - np.array(landmark2)
     # landmark3에서 landmark2로 향하는 3차원 벡터 계산
-    vector2 = np.array([landmark3.x, landmark3.y, landmark3.z]) - np.array([landmark2.x, landmark2.y, landmark2.z])
+    vector2 = np.array(landmark3) - np.array(landmark2)
 
     # 벡터의 크기를 고려하지 않기 위해 단위벡터로 환산
     unit_vector1 = vector1 / np.linalg.norm(vector1)
@@ -54,8 +63,8 @@ def calculateAngle(landmark1, landmark2, landmark3):
 
 
 
-# 각도 계산 함수(좌표)
-def calculate_angle2(landmarkx1, landmarky1, landmarkz1, landmarkx2, landmarky2, landmarkz2, landmarkx3, landmarky3, landmarkz3):
+# 3D 각도 계산 함수(좌표)
+def calculateAngle3D_2(landmarkx1, landmarky1, landmarkz1, landmarkx2, landmarky2, landmarkz2, landmarkx3, landmarky3, landmarkz3):
     vector1 = np.array([landmarkx1, landmarky1, landmarkz1]) - np.array([landmarkx2, landmarky2, landmarkz2])
     # landmark3에서 landmark2로 향하는 3차원 벡터 계산
     vector2 = np.array([landmarkx3, landmarky3, landmarkz3]) - np.array([landmarkx2, landmarky2, landmarkz2])
@@ -109,15 +118,61 @@ class VideoCamera(object):
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         if results.pose_landmarks:
             landmarks = results.pose_landmarks.landmark
-            back_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value],
-                                        landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
-                                        landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value])
+
+            # 오른쪽 허리 각도 계산 및 저장
+            back_angle_right = round(
+                calculateAngle3D(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value],
+                                 landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
+                                 landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value]), 1)
+            # 왼쪽 허리 각도 계산 및 저장
+            back_angle_left = round(
+                calculateAngle3D(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value],
+                                 landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
+                                 landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value]), 1)
+            
+            # 오른쪽 무릎 각도 계산 및 저장
+            knee_angle_right = round(
+                calculateAngle3D(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value],
+                                 landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
+                                 landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value]), 1)
+            # 왼쪽 무릎 각도 계산 및 저장
+            knee_angle_left = round(
+                calculateAngle3D(landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value],
+                                 landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
+                                 landmarks[mp_pose.PoseLandmark.LEFT_HIP.value]), 1)
+            
+            # 발목-무릎-반대쪽 무릎 오른쪽 각도 계산 및 저장
+            ankle_knee_knee_right = round(
+                calculateAngle3D(landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value],
+                                 landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
+                                 landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value]), 1)
+            # 발목-무릎-반대쪽 무릎 왼쪽 각도 계산 및 저장
+            ankle_knee_knee_left = round(
+                calculateAngle3D(landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value],
+                                 landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
+                                 landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value]), 1)
+            
+            # 무릎-엉덩이-반대쪽엉덩이 오른쪽 각도 계산 및 저장
+            hip_hip_knee_right = round(
+                calculateAngle3D(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
+                                 landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
+                                 landmarks[mp_pose.PoseLandmark.LEFT_HIP.value]), 1)
+            # 무릎-엉덩이-반대쪽엉덩이 왼쪽 각도 계산 및 저장
+            hip_hip_knee_left = round(
+                calculateAngle3D(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
+                                 landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
+                                 landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value]), 1)
+            
             input_data = np.array([[
-                back_angle
+                back_angle_right, back_angle_left,
+                knee_angle_right, knee_angle_left,
+                ankle_knee_knee_right, ankle_knee_knee_left,
+                hip_hip_knee_right, hip_hip_knee_left
             ]])
 
             # 딥러닝 모델로 동작 분류
-            predictions = model.predict(input_data)
+            # predictions = model.predict(input_data) # .h5
+            predictions = model.predict_proba(input_data) # .joblib
 
             # 클래스 1 (올바른  동작)의 확률을 가져와 화면에 표시
             probability_class1 = predictions[0][1]  # 클래스 1에 해당하는 확률 (0은 클래스 0, 1은 클래스 1)

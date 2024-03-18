@@ -265,57 +265,106 @@ const onResults = (results) => {
 
 
     if (results.poseLandmarks && results.poseLandmarks.length >= 27) {
-    console.log(results.poseLandmarks.length);
     // 객체로 전송시 JSON.Stringify포함,  아래는 허리디스크 모델을 돌리기 위한 좌표 전송 코드
-
+    
+    const rightShoulderIndex =  11;
     const leftShoulderIndex =  12;
+    const rightHipIndex =  23;
     const leftHipIndex = 24;
+    const rightKneeIndex = 25;
     const leftKneeIndex = 26;
+    const rightAnkleIndex = 27;
+    const leftAnkleIndex = 28;
 
-
+    var rightShoulderLandmark = results.poseLandmarks[rightShoulderIndex];
     var leftShoulderLandmark = results.poseLandmarks[leftShoulderIndex];
+    var rightHipLandmark = results.poseLandmarks[rightHipIndex];
     var leftHipLandmark = results.poseLandmarks[leftHipIndex];
+    var rightKneeLandmark = results.poseLandmarks[rightKneeIndex];
     var leftKneeLandmark = results.poseLandmarks[leftKneeIndex];
+    var rightAnkleLandmark = results.poseLandmarks[rightAnkleIndex];
+    var leftAnkleLandmark = results.poseLandmarks[leftAnkleIndex];
 
 
     //객체로 전송시
     var landmarkData = JSON.stringify(leftKneeLandmark);
-    console.log(landmarkData)
 
 
-
+    //오른쪽 어깨
+    var rightShoulderXCoordinate = rightShoulderLandmark.x;
+    var rightShoulderYCoordinate = rightShoulderLandmark.y;
+    var rightShoulderZCoordinate = rightShoulderLandmark.z;
+    
     //왼쪽 어깨
     var leftShoulderXCoordinate = leftShoulderLandmark.x;
     var leftShoulderYCoordinate = leftShoulderLandmark.y;
     var leftShoulderZCoordinate = leftShoulderLandmark.z;
-
+    
+    //오른쪽 엉덩이
+    var rightHipXCoordinate = rightHipLandmark.x;
+    var rightHipYCoordinate = rightHipLandmark.y;
+    var rightHipZCoordinate = rightHipLandmark.z;
+    
     //왼쪽 엉덩이
     var leftHipXCoordinate = leftHipLandmark.x;
     var leftHipYCoordinate = leftHipLandmark.y;
     var leftHipZCoordinate = leftHipLandmark.z;
-
+    
+    //오른쪽 무릎
+    var rightKneeXCoordinate = rightKneeLandmark.x;
+    var rightKneeYCoordinate = rightKneeLandmark.y;
+    var rightKneeZCoordinate = rightKneeLandmark.z;
+    
     //왼쪽 무릎
     var leftKneeXCoordinate = leftKneeLandmark.x;
     var leftKneeYCoordinate = leftKneeLandmark.y;
     var leftKneeZCoordinate = leftKneeLandmark.z;
 
+    //오른쪽 발목
+    var rightAnkleXCoordinate = rightAnkleLandmark.x;
+    var rightAnkleYCoordinate = rightAnkleLandmark.y;
+    var rightAnkleZCoordinate = rightAnkleLandmark.z;
 
+    //왼쪽 발목
+    var leftAnkleXCoordinate = leftAnkleLandmark.x;
+    var leftAnkleYCoordinate = leftAnkleLandmark.y;
+    var leftAnkleZCoordinate = leftAnkleLandmark.z;
 
     var CoordinateData = {
+                    "rightShoulderXCoordinate": parseFloat(rightShoulderXCoordinate),
+                    "rightShoulderYCoordinate": parseFloat(rightShoulderYCoordinate),
+                    "rightShoulderZCoordinate": parseFloat(rightShoulderZCoordinate),
 
                     "leftShoulderXCoordinate": parseFloat(leftShoulderXCoordinate),
                     "leftShoulderYCoordinate": parseFloat(leftShoulderYCoordinate),
                     "leftShoulderZCoordinate": parseFloat(leftShoulderZCoordinate),
 
+                    "rightHipXCoordinate": parseFloat(rightHipXCoordinate),
+                    "rightHipYCoordinate": parseFloat(rightHipYCoordinate),
+                    "rightHipZCoordinate": parseFloat(rightHipZCoordinate),
+
                     "leftHipXCoordinate": parseFloat(leftHipXCoordinate),
                     "leftHipYCoordinate": parseFloat(leftHipYCoordinate),
                     "leftHipZCoordinate": parseFloat(leftHipZCoordinate),
 
+                    "rightKneeXCoordinate": parseFloat(rightKneeXCoordinate),
+                    "rightKneeYCoordinate": parseFloat(rightKneeYCoordinate),
+                    "rightKneeZCoordinate": parseFloat(rightKneeZCoordinate),
+
                     "leftKneeXCoordinate": parseFloat(leftKneeXCoordinate),
                     "leftKneeYCoordinate": parseFloat(leftKneeYCoordinate),
                     "leftKneeZCoordinate": parseFloat(leftKneeZCoordinate),
-                    "landmarkData": landmarkData,
+
+                    "rightAnkleXCoordinate": parseFloat(rightAnkleXCoordinate),
+                    "rightAnkleYCoordinate": parseFloat(rightAnkleYCoordinate),
+                    "rightAnkleZCoordinate": parseFloat(rightAnkleZCoordinate),
+
+                    "leftAnkleXCoordinate": parseFloat(leftAnkleXCoordinate),
+                    "leftAnkleYCoordinate": parseFloat(leftAnkleYCoordinate),
+                    "leftAnkleZCoordinate": parseFloat(leftAnkleZCoordinate),
+                    //"landmarkData": landmarkData,
     };
+    console.log(CoordinateData);
 
     //보안 csrftoken
     var csrftoken = document.querySelector("meta[name=csrf_token]").content
@@ -330,18 +379,30 @@ const onResults = (results) => {
 
         success: function(data) {
             console.log('Data sent successfully');
+            var jsonData0 = data.json_data0;
             var jsonData1 = data.json_data1;
             var jsonData2 = data.json_data2;
             var jsonData3 = data.json_data3;
+            var jsonData4 = data.json_data4;
+            var jsonData5 = data.json_data5;
+            var jsonData6 = data.json_data6;
 
 
             //HTML에 텍스트 로드
+            var receivedDataElement0 = document.getElementById('received_data0'); // HTML 요소 선택
+            receivedDataElement0.innerHTML = jsonData0; // HTML
             var receivedDataElement1 = document.getElementById('received_data1'); // HTML 요소 선택
             receivedDataElement1.innerHTML = jsonData1; // HTML
             var receivedDataElement2 = document.getElementById('received_data2'); // HTML 요소 선택
             receivedDataElement2.innerHTML = jsonData2; // HTML
             var receivedDataElement3 = document.getElementById('received_data3'); // HTML 요소 선택
             receivedDataElement3.innerHTML = jsonData3; // HTML
+            var receivedDataElement4 = document.getElementById('received_data4'); // HTML 요소 선택
+            receivedDataElement4.innerHTML = jsonData4; // HTML
+            var receivedDataElement5 = document.getElementById('received_data5'); // HTML 요소 선택
+            receivedDataElement5.innerHTML = jsonData5; // HTML
+            var receivedDataElement6 = document.getElementById('received_data6'); // HTML 요소 선택
+            receivedDataElement6.innerHTML = jsonData6; // HTML
 
 
             //aframe 가상환경 안에  텍스트 로드
