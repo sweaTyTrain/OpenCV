@@ -10,15 +10,20 @@ import os
 
 
 class TestModel(models.Model):
-    label_0 = models.CharField(max_length=100)
-    label_1 = models.CharField(max_length=100)
-    label_2 = models.CharField(max_length=100)
-    label_3 = models.CharField(max_length=100)
-    label_4 = models.CharField(max_length=100)
-    label_5 = models.CharField(max_length=100)
-    label_6 = models.CharField(max_length=100)
-
-
+    label_0 = models.CharField(max_length=100, default='default_value')
+    label_1 = models.CharField(max_length=100, default='default_value')
+    label_2 = models.CharField(max_length=100, default='default_value')
+    label_3 = models.CharField(max_length=100, default='default_value')
+    label_4 = models.CharField(max_length=100, default='default_value')
+    label_5 = models.CharField(max_length=100, default='default_value')
+    label_6 = models.CharField(max_length=100, default='default_value')
+    squatCnt = models.CharField(max_length=5, default='0')
+    squatBeforeState = models.CharField(max_length=5, default='1')
+    squatNowState = models.CharField(max_length=5, default='1')
+    squatState = models.CharField(max_length=200, default='')
+    squatAccuracy = models.CharField(max_length=10, default='-1')
+    stateQueue = models.CharField(max_length=50, default='-1,-1,-1,-1,-1')
+    classIdx = models.CharField(max_length=50, default='-1')
 
 
 
@@ -84,6 +89,17 @@ def calculateAngle3D_2(landmarkx1, landmarky1, landmarkz1, landmarkx2, landmarky
 
     return angle_degrees
 
+# 리스트에서 최대값의 인덱스를 찾는 함수
+def find_max_index(lst):
+    max_value = lst[0]
+    max_index = 0
+
+    for i in range(1, len(lst)):
+        if lst[i] > max_value:
+            max_value = lst[i]
+            max_index = i
+
+    return max_index
 
 
 

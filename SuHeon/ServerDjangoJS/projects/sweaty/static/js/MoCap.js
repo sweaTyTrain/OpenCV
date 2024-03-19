@@ -379,31 +379,30 @@ const onResults = (results) => {
 
         success: function(data) {
             console.log('Data sent successfully');
-            var jsonData0 = data.json_data0;
-            var jsonData1 = data.json_data1;
-            var jsonData2 = data.json_data2;
-            var jsonData3 = data.json_data3;
-            var jsonData4 = data.json_data4;
-            var jsonData5 = data.json_data5;
-            var jsonData6 = data.json_data6;
+            // Class 저장 리스트
+            var className = ['good_stand', 'good_progress', 'good_sit',
+                             'knee_narrow_progress', 'knee_narrow_sit',
+                             'knee_wide_progress', 'knee_wide_sit']
+            
+            // 리스트 형태로 예측확률 결과 저장
+            var jsonDataPreList = [data.json_data0, data.json_data1, data.json_data2,
+                                   data.json_data3, data.json_data4, data.json_data5,
+                                   data.json_data6];
 
-
+            var jsonAccuracy = data.json_data7;
+            var jsonCnt = data.json_data9;
+            var jsonClassIdx = data.json_data13;
+            
             //HTML에 텍스트 로드
-            var receivedDataElement0 = document.getElementById('received_data0'); // HTML 요소 선택
-            receivedDataElement0.innerHTML = jsonData0; // HTML
-            var receivedDataElement1 = document.getElementById('received_data1'); // HTML 요소 선택
-            receivedDataElement1.innerHTML = jsonData1; // HTML
-            var receivedDataElement2 = document.getElementById('received_data2'); // HTML 요소 선택
-            receivedDataElement2.innerHTML = jsonData2; // HTML
-            var receivedDataElement3 = document.getElementById('received_data3'); // HTML 요소 선택
-            receivedDataElement3.innerHTML = jsonData3; // HTML
-            var receivedDataElement4 = document.getElementById('received_data4'); // HTML 요소 선택
-            receivedDataElement4.innerHTML = jsonData4; // HTML
-            var receivedDataElement5 = document.getElementById('received_data5'); // HTML 요소 선택
-            receivedDataElement5.innerHTML = jsonData5; // HTML
-            var receivedDataElement6 = document.getElementById('received_data6'); // HTML 요소 선택
-            receivedDataElement6.innerHTML = jsonData6; // HTML
-
+            var receivedDataElement0 = document.getElementById('showClass'); // HTML 요소 선택
+            receivedDataElement0.innerHTML = 'Class: ' + className[parseInt(jsonClassIdx)]; // HTML
+            var receivedDataElement1 = document.getElementById('showPre'); // HTML 요소 선택
+            receivedDataElement1.innerHTML = 'Predict: ' + jsonDataPreList[parseInt(jsonClassIdx)]; // HTML
+            var receivedDataElement2 = document.getElementById('showCnt'); // HTML 요소 선택
+            receivedDataElement2.innerHTML = 'Count: ' + jsonCnt; // HTML
+            var receivedDataElement3 = document.getElementById('showSquatAcuu'); // HTML 요소 선택
+            receivedDataElement3.innerHTML = 'SquatAccu: ' + String(parseFloat(jsonAccuracy)*100) + '%'; // HTML
+            
 
             //aframe 가상환경 안에  텍스트 로드
             //const shoulderText2 = document.querySelector('#shoulderText2');
