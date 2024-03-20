@@ -69,7 +69,7 @@ loader.load(
 
 // Animate Rotation Helper function
 // 앉을때 양반다리 모양으로 접히는것이 rigRotation함수를 적용한 관절이 잘못된 것이 아닐까?
-const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAmount = 0.3) => {
+const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAmount = 0.5) => {
     if (!currentVrm) {
         return;
     }
@@ -89,7 +89,7 @@ const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAm
 };
 
 // Animate Position Helper Function
-const rigPosition = (name, position = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAmount = 0.3) => {
+const rigPosition = (name, position = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAmount = 1) => {
     if (!currentVrm) {
         return;
     }
@@ -106,7 +106,7 @@ const rigFace = (riggedFace) => {
     if (!currentVrm) {
         return;
     }
-    rigRotation("Neck", riggedFace.head, 0.7);
+    rigRotation("Neck", riggedFace.head);
 
     // Blendshapes and Preset Name Schema
     const Blendshape = currentVrm.blendShapeProxy;
@@ -154,7 +154,7 @@ const animateVRM = (vrm, results) => {
     // Be careful, hand landmarks may be reversed
     const leftHandLandmarks = results.rightHandLandmarks;
     const rightHandLandmarks = results.leftHandLandmarks;
-
+    
     // Animate Face
     if (faceLandmarks) {
         riggedFace = Kalidokit.Face.solve(faceLandmarks, {
@@ -170,7 +170,176 @@ const animateVRM = (vrm, results) => {
             runtime: "mediapipe",
             video: videoElement,
         });
-        rigRotation("Hips", riggedPose.Hips.rotation, 0.7);
+        console.log(pose3DLandmarks[0].x);
+        console.log(riggedPose.Hips.position.x)
+        console.log(riggedPose.Hips.position.y)
+        console.log(riggedPose.Hips.position.z)
+
+        // rigPosition(
+        //     "Hips", 
+        //     {
+        //         x: (pose3DLandmarks[23].x + pose3DLandmarks[24].x)/2,
+        //         y: -1*(pose3DLandmarks[23].y + pose3DLandmarks[24].y)/2,
+        //         z: (pose3DLandmarks[23].z + pose3DLandmarks[24].z)/2
+        //     },
+        //     1,
+        //     0.9
+        //     );
+
+        // rigPosition(
+        //     "Chest", 
+        //     {
+        //         x: (pose3DLandmarks[11].x + pose3DLandmarks[12].x),
+        //         y: -1*(pose3DLandmarks[11].y + pose3DLandmarks[12].y),
+        //         z: (pose3DLandmarks[11].z + pose3DLandmarks[12].z)
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "Spine", 
+        //     {
+        //         x: (pose3DLandmarks[11].x + pose3DLandmarks[12].x + pose3DLandmarks[23].x + pose3DLandmarks[24].x)/4,
+        //         y: -1*((pose3DLandmarks[11].y + pose3DLandmarks[12].y)/2 + (pose3DLandmarks[23].y + pose3DLandmarks[24].y)/2)/3,
+        //         z: (pose3DLandmarks[11].z + pose3DLandmarks[12].z + pose3DLandmarks[23].z + pose3DLandmarks[24].z)/4
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "RightUpperArm", 
+        //     {
+        //         x: pose3DLandmarks[11].x,
+        //         y: -1*pose3DLandmarks[11].y,
+        //         z: pose3DLandmarks[11].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "LeftUpperArm", 
+        //     {
+        //         x: pose3DLandmarks[12].x,
+        //         y: -1*pose3DLandmarks[12].y,
+        //         z: pose3DLandmarks[12].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "RightLowerArm", 
+        //     {
+        //         x: pose3DLandmarks[13].x,
+        //         y: -1*pose3DLandmarks[13].y,
+        //         z: pose3DLandmarks[13].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "LeftLowerArm", 
+        //     {
+        //         x: pose3DLandmarks[14].x,
+        //         y: -1*pose3DLandmarks[14].y,
+        //         z: pose3DLandmarks[14].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "RightHand", 
+        //     {
+        //         x: pose3DLandmarks[15].x,
+        //         y: -1*pose3DLandmarks[15].y,
+        //         z: pose3DLandmarks[15].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "LeftHand", 
+        //     {
+        //         x: pose3DLandmarks[16].x,
+        //         y: -1*pose3DLandmarks[16].y,
+        //         z: pose3DLandmarks[16].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "RightUpperLeg", 
+        //     {
+        //         x: pose3DLandmarks[23].x,
+        //         y: -1*pose3DLandmarks[23].y,
+        //         z: pose3DLandmarks[23].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "LeftUpperLeg", 
+        //     {
+        //         x: pose3DLandmarks[24].x,
+        //         y: -1*pose3DLandmarks[24].y,
+        //         z: pose3DLandmarks[24].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "RightLowerLeg", 
+        //     {
+        //         x: pose3DLandmarks[25].x,
+        //         y: -1*pose3DLandmarks[25].y,
+        //         z: pose3DLandmarks[25].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "LeftLowerLeg", 
+        //     {
+        //         x: pose3DLandmarks[26].x,
+        //         y: -1*pose3DLandmarks[26].y,
+        //         z: pose3DLandmarks[26].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "RightFoot", 
+        //     {
+        //         x: pose3DLandmarks[27].x,
+        //         y: -1*pose3DLandmarks[27].y,
+        //         z: pose3DLandmarks[27].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+
+        // rigPosition(
+        //     "LeftFoot", 
+        //     {
+        //         x: pose3DLandmarks[28].x,
+        //         y: -1*pose3DLandmarks[28].y,
+        //         z: pose3DLandmarks[28].z
+        //     },
+        //     1,
+        //     0.9
+        // );
+        rigRotation("Hips", riggedPose.Hips.rotation);
         rigPosition(
             "Hips",
             {
@@ -179,21 +348,31 @@ const animateVRM = (vrm, results) => {
                 z: -riggedPose.Hips.position.z, // Reverse direction
             },
             1,
-            0.07
+            0.9
         );
+        
+        rigRotation("Chest", riggedPose.Chest);
 
-        rigRotation("Chest", riggedPose.Chest, 0.25, 0.3);
-        rigRotation("Spine", riggedPose.Spine, 0.45, 0.3);
+        rigRotation("Spine", riggedPose.Spine);
+        rigRotation("RightUpperArm", riggedPose.RightUpperArm);
+        rigRotation("RightLowerArm", riggedPose.RightLowerArm);
+        rigRotation("LeftUpperArm", riggedPose.LeftUpperArm);
+        rigRotation("LeftLowerArm", riggedPose.LeftLowerArm);
+        // console.log(riggedPose.LeftUpperLeg.y)
+        // console.log(riggedPose.RightUpperLeg.y)
+        // riggedPose.LeftUpperLeg.y = -1 * riggedPose.LeftUpperLeg.y
+        // riggedPose.RightUpperLeg.y = -1 * riggedPose.RightUpperLeg.y
 
-        rigRotation("RightUpperArm", riggedPose.RightUpperArm, 1, 0.3);
-        rigRotation("RightLowerArm", riggedPose.RightLowerArm, 1, 0.3);
-        rigRotation("LeftUpperArm", riggedPose.LeftUpperArm, 1, 0.3);
-        rigRotation("LeftLowerArm", riggedPose.LeftLowerArm, 1, 0.3);
-
-        rigRotation("LeftUpperLeg", riggedPose.LeftUpperLeg, 1, 0.3);
-        rigRotation("LeftLowerLeg", riggedPose.LeftLowerLeg, 1, 0.3);
-        rigRotation("RightUpperLeg", riggedPose.RightUpperLeg, 1, 0.3);
-        rigRotation("RightLowerLeg", riggedPose.RightLowerLeg, 1, 0.3);
+        console.log(riggedPose.LeftLowerLeg.z);
+        console.log(riggedPose.RightLowerLeg.z);
+        riggedPose.LeftUpperLeg.y = riggedPose.LeftUpperLeg.y*-0.2;
+        riggedPose.RightUpperLeg.y = riggedPose.RightUpperLeg.y*-0.2;
+        rigRotation("LeftUpperLeg", riggedPose.LeftUpperLeg);
+        rigRotation("LeftLowerLeg", riggedPose.LeftLowerLeg);
+        rigRotation("RightUpperLeg", riggedPose.RightUpperLeg);
+        rigRotation("RightLowerLeg", riggedPose.RightLowerLeg);
+        rigRotation("RightFoot", riggedPose.RightFoot);
+        rigRotation("LeftFoot", riggedPose.LeftFoot);
     }
 
     // Animate Hands
