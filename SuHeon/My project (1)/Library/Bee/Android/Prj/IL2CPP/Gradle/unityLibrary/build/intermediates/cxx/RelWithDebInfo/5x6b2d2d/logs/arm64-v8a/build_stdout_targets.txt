@@ -1,2 +1,0 @@
-ninja: Entering directory `C:\Users\HoneyWater\Desktop\My project (1)\.utmp\RelWithDebInfo\5x6b2d2d\arm64-v8a'
-ninja: no work to do.
