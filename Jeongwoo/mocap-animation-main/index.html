@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <!-- HTML Meta Tags -->
-    <title>KalidoKit - Face and Body Rig Solver</title>
+    <title>Sweaty - Face and Body Rig Solver</title>
     <meta
       name="description"
       content="Track face and body rigs just your browser webcam!"
@@ -307,7 +307,7 @@ const animateVRM = (vrm, results) => {
     });
     rigRotation("Hips", riggedPose.Hips.rotation, 0.7);
     rigPosition(
-      "Hips",
+      "Hips", 
       {
         x: -riggedPose.Hips.position.x, // Reverse direction
         y: riggedPose.Hips.position.y + 1, // Add a bit of height
