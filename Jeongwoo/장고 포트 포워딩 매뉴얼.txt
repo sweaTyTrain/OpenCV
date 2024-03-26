@@ -1,0 +1,11 @@
+1. 가상환경 진입
+2. pip install django mediapipe numpy opencv-python pandas tensorflow joblib scikit-learn   해당 모듈 필수 설치   
+3. 장고 프로젝트의 sweaty폴더의 settings.py 에서 ALLOWED_HOSTS 에서   [ ]   안에 '*'  또는  ' '    ipconfig로 확인한 IPv4 주소 넣기  주소는  ' ' 작은 따옴표 안에 넣을것 
+4. 본인 집의 공유기 설정으로 들어가기 기본게이트웨이 주소 (ipconfig에서 확인) chrome창에 입력하기
+5. 공유기 로그인 후 port forwarding이라는 항목 찾기 
+6.  포트 포워딩을 다음과 같이 구성할 것 
+ Service Name	Device IP Address	External Port	Internal Port	Protocol	
+  테스트서버           ipv4 주소                   8000                   8000               Tcp
+7. 프로젝트 실행   python manage.py  ipv4주소:8000    <= 포트번호는 바꿔도 됨 
+
+8. 모바일에서 같은 공유기 접속시  http:// ipv4주소:8000    데이터로 접속시   네이버에 내 ip주소 검색후      ipv4주소를 해당 주소로 교체 

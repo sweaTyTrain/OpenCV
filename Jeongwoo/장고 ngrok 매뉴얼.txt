@@ -1,0 +1,8 @@
+1. 장고 sweaty 폴더의 allowed_host = [ ]  괄호안에  '*' 집어 넣기   
+2. ngrok 설치  https://ngrok.com/download  각자 환경에 맞게   
+3. 압축 푼 후  ngrok 실행 파일 manage.py와 같은 경로에 두기 
+3. 위 사이트에서 회원가입 후 auth token 지급 받기  왼쪽 목록에서 tunnel의 authtokens 클릭 
+4. 토큰 복사 후 ngrok 실행창에  ngrok config add-authtoken <복사한 토큰> 입력하기 
+5. cmd 창에서 python manage.py runserver 8000 입력   
+6. ngrok 실행 창에 ngrok http 8000 입력      <--  위의 cmd 창은 가상환경 진입 , ngrok 실행창은 가상환경 진입 x
+7. Forwarding 에 https://1126-121-190-135-4.ngrok-free.app   이런 형태의 url이 만들어짐 들어간 후 visit site 누르면 모바일이나 다른 환경에서 테스트 가능 
