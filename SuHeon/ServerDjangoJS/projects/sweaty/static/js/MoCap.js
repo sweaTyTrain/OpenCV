@@ -13,7 +13,7 @@ document.body.appendChild(renderer.domElement);
 
 // camera
 const orbitCamera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000);
-orbitCamera.position.set(0.0, 1.2, 4.4);
+orbitCamera.position.set(0.0, 0.0, 4.4);
 
 // controls
 const orbitControls = new THREE.OrbitControls(orbitCamera, renderer.domElement);
@@ -28,6 +28,40 @@ const scene = new THREE.Scene();
 const light = new THREE.DirectionalLight(0xffffff);
 light.position.set(1.0, 1.0, 1.0).normalize();
 scene.add(light);
+
+const textureLoader = new THREE.TextureLoader();
+const tilesBaseColor = textureLoader.load("../../static/img/Metal_Tiles_003_basecolor.jpg");
+const tilesNormalMap = textureLoader.load("../../static/img/Metal_Tiles_003_normal.jpg");
+const tilesHeightMap = textureLoader.load("../../static/img/Metal_Tiles_003_height.png");
+const tilesRoughnessMap = textureLoader.load("../../static/img/Metal_Tiles_003_roughness.jpg");
+const tilesAmbientOcclusionMap = textureLoader.load("../../static/img/Metal_Tiles_003_ambientOcclusion.jpg");
+const tilesMetallicMap = textureLoader.load("../../static/img/Metal_Tiles_003_metallic.jpg");
+
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(2, 2, 512, 512), 
+    new THREE.MeshStandardMaterial(
+        {
+            map: tilesBaseColor,
+            normalMap: tilesNormalMap,
+            displacementMap: tilesHeightMap,
+            displacementScale: 0.1,
+            roughnessMap: tilesRoughnessMap,
+            roughness: 0.5,
+            aoMap: tilesAmbientOcclusionMap,
+        }
+
+))
+
+plane.rotation.x = Math.PI * 3/2;
+plane.geometry.attributes.uv2 = plane.geometry.attributes.uv;
+scene.add(plane);
+
+// // 바닥 생성
+// const groundSize = 10; // 바닥의 크기
+// const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x808080, side: THREE.DoubleSide }); // 바닥의 재질
+// const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize); // 바닥의 geometry 생성
+// const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);// 바닥의 mesh 생성
+// groundMesh.rotation.x = Math.PI / 2; // 바닥의 회전 설정 (예: 바닥을 x축 주변으로 90도 회전)
+// scene.add(groundMesh);  // 씬에 바닥 추가
 
 // Main Render Loop
 const clock = new THREE.Clock();
@@ -170,10 +204,6 @@ const animateVRM = (vrm, results) => {
             runtime: "mediapipe",
             video: videoElement,
         });
-        console.log(pose3DLandmarks[0].x);
-        console.log(riggedPose.Hips.position.x)
-        console.log(riggedPose.Hips.position.y)
-        console.log(riggedPose.Hips.position.z)
 
         // rigPosition(
         //     "Hips", 
@@ -339,40 +369,73 @@ const animateVRM = (vrm, results) => {
         //     1,
         //     0.9
         // );
-        rigRotation("Hips", riggedPose.Hips.rotation);
-        rigPosition(
-            "Hips",
-            {
-                x: riggedPose.Hips.position.x, // Reverse direction
-                y: riggedPose.Hips.position.y + 1, // Add a bit of height
-                z: -riggedPose.Hips.position.z, // Reverse direction
-            },
-            1,
-            0.9
-        );
-        
-        rigRotation("Chest", riggedPose.Chest);
 
+        // 엉덩이 관절 노드를 얻기
+        const hipsNode = vrm.humanoid.getBoneNode(THREE.VRMSchema.HumanoidBoneName.Hips);
+        // 노드의 위치 벡터를 가져오기
+        const hipsPosition = new THREE.Vector3();
+        if (hipsNode) {
+            hipsPosition.setFromMatrixPosition(hipsNode.matrixWorld);
+        }
+
+        // 오른쪽 발 관절 노드를 얻기
+        const rightFootNode = vrm.humanoid.getBoneNode(THREE.VRMSchema.HumanoidBoneName.RightFoot);
+        // 노드의 위치 벡터를 저장할 변수
+        const rightFootPosition = new THREE.Vector3();
+        if (rightFootNode) {
+            rightFootPosition.setFromMatrixPosition(rightFootNode.matrixWorld);
+
+        }
+
+        // 왼쪽 발 관절 노드를 얻기
+        const leftFootNode = vrm.humanoid.getBoneNode(THREE.VRMSchema.HumanoidBoneName.LeftFoot);
+        // 노드의 위치 벡터를 저장할 변수
+        const leftFootPosition = new THREE.Vector3();
+        if (leftFootNode) {
+            leftFootPosition.setFromMatrixPosition(leftFootNode.matrixWorld);
+        }
+        
+        // 어느쪽 발이 더 높은지 판단
+        if (rightFootPosition.y > leftFootPosition.y) {
+            rigPosition(
+                "Hips",
+                {
+                    x: 0,
+                    y: hipsPosition.y - leftFootPosition.y + 0.13,
+                    z: 0,
+                },
+                1,
+                1
+            );
+        } else {
+            rigPosition(
+                "Hips",
+                {
+                    x: 0,
+                    y: hipsPosition.y - rightFootPosition.y + 0.13,
+                    z: 0,
+                },
+                1,
+                1
+            );
+        }
+
+        rigRotation("Hips", riggedPose.Hips.rotation);
+
+        console.log(vrm);
+        console.log(riggedPose);
+        riggedPose.LeftUpperLeg.y = riggedPose.LeftUpperLeg.y*-0.2;
+        riggedPose.RightUpperLeg.y = riggedPose.RightUpperLeg.y*-0.2;
+        rigRotation("Chest", riggedPose.Chest);
         rigRotation("Spine", riggedPose.Spine);
         rigRotation("RightUpperArm", riggedPose.RightUpperArm);
         rigRotation("RightLowerArm", riggedPose.RightLowerArm);
         rigRotation("LeftUpperArm", riggedPose.LeftUpperArm);
         rigRotation("LeftLowerArm", riggedPose.LeftLowerArm);
-        // console.log(riggedPose.LeftUpperLeg.y)
-        // console.log(riggedPose.RightUpperLeg.y)
-        // riggedPose.LeftUpperLeg.y = -1 * riggedPose.LeftUpperLeg.y
-        // riggedPose.RightUpperLeg.y = -1 * riggedPose.RightUpperLeg.y
-
-        console.log(riggedPose.LeftLowerLeg.z);
-        console.log(riggedPose.RightLowerLeg.z);
-        riggedPose.LeftUpperLeg.y = riggedPose.LeftUpperLeg.y*-0.2;
-        riggedPose.RightUpperLeg.y = riggedPose.RightUpperLeg.y*-0.2;
         rigRotation("LeftUpperLeg", riggedPose.LeftUpperLeg);
         rigRotation("LeftLowerLeg", riggedPose.LeftLowerLeg);
         rigRotation("RightUpperLeg", riggedPose.RightUpperLeg);
         rigRotation("RightLowerLeg", riggedPose.RightLowerLeg);
-        rigRotation("RightFoot", riggedPose.RightFoot);
-        rigRotation("LeftFoot", riggedPose.LeftFoot);
     }
 
     // Animate Hands

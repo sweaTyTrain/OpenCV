@@ -54,9 +54,15 @@
       <p id="showSquatAcuu" ></p>
     </h1>
 
-
+    <!-- <img src="{% static 'js/Metal_Tiles_003_height.png' %}" alt="Height Map">
+    <img src="{% static 'js/Metal_Tiles_003_basecolor.jpg' %}" alt="Basecolor Map">
+    <img src="{% static 'js/Metal_Tiles_003_normal.jpg' %}" alt="Normal Map">
+    <img src="{% static 'js/Metal_Tiles_003_roughness.jpg' %}" alt="Roughness Map">
+    <img src="{% static 'js/Metal_Tiles_003_ambientOcclusion.jpg' %}" alt="AmbientOcclusion Map">
+    <img src="{% static 'js/Metal_Tiles_003_metallic.jpg' %}" alt="Metallic Map"> -->
+    
     <script>
-        const jsonUrl = {% url 'test' %}
+        const jsonUrl = "{% url 'test' %}";
         const modelUrl = "{% static 'model/three-vrm-girl.vrm' %}";
     </script>
     <script type="module" src="{% static 'js/MoCap.js' %}"></script>
