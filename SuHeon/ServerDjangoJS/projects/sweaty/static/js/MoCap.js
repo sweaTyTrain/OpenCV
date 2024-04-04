@@ -13,7 +13,11 @@ document.body.appendChild(renderer.domElement);
 
 // camera
 const orbitCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-orbitCamera.position.set(0.0, 1.0, 4.4);
+orbitCamera.position.set(0.0, 20.0, 54.4);
+
+// 시작 위치와 최종 위치 정의
+const start = { x: orbitCamera.position.x, y: orbitCamera.position.y, z: orbitCamera.position.z };
+const target = { x: 0.0, y: 2.0, z: 7.4 }; // 원하는 새로운 위치
 
 // controls
 const orbitControls = new THREE.OrbitControls(orbitCamera, renderer.domElement);
@@ -43,6 +47,8 @@ function animate() {
         // Update model to render physics
         currentVrm.update(clock.getDelta());
     }
+    TWEEN.update();
+    orbitControls.update();
     renderer.render(scene, orbitCamera);
 }
 animate();
@@ -91,6 +97,45 @@ const rgbeloader = new THREE.RGBELoader();
 rgbeloader.load('../../static/assets/sunflowers_puresky_8k.hdr', (texture) => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
     scene.background = texture;
+
+    // // 파일 로드 완료 후 로딩 화면 숨기기
+    // loadingScreen.style.display = 'none';
+    document.getElementById('loading-screen').style.display = 'none';
+    // Tween.js를 사용하여 애니메이션 적용
+    const tween = new TWEEN.Tween(start)
+    .to(target, 3000) // 지속 시간을 밀리초 단위로 설정 (3초)
+    .easing(TWEEN.Easing.Quadratic.InOut) // 이징 함수 설정 (선택 사항)
+    .onUpdate(() => {
+        // 애니메이션 갱신될 때마다 카메라 위치 업데이트
+        orbitCamera.position.set(start.x, start.y, start.z);
+    })
+    .onComplete(() => {
+        // 애니메이션이 끝나면 3, 2, 1 글자가 1초 간격으로 차례대로 나오게 함
+        const countDownDiv = document.createElement('div');
+        countDownDiv.style.position = 'fixed';
+        countDownDiv.style.top = '50%';
+        countDownDiv.style.left = '50%';
+        countDownDiv.style.transform = 'translate(-50%, -50%)';
+        countDownDiv.style.fontSize = '48px';
+        countDownDiv.style.color = 'black';
+        countDownDiv.innerText = '3';
+        document.body.appendChild(countDownDiv);
+
+        setTimeout(() => {
+            countDownDiv.innerText = '2';
+        }, 1000);
+
+        setTimeout(() => {
+            countDownDiv.innerText = '1';
+        }, 2000);
+        setTimeout(() => {
+            countDownDiv.innerText = 'Start!';
+        }, 3000);
+        setTimeout(() => {
+            document.body.removeChild(countDownDiv);
+        }, 4000);
+    })
+    .start(); // 애니메이션 시작
 });
 
 const fontLoader = new THREE.FontLoader();
